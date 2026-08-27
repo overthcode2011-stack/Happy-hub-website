@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Hub · Xeno.now Style</title>
+    <!-- Fuente moderna -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&display=swap" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background: #0b0d12;
+            color: #e4e8f0;
+            padding: 2rem 1.5rem;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: radial-gradient(circle at 20% 30%, rgba(180, 70, 200, 0.08) 0%, transparent 60%),
+                              radial-gradient(circle at 80% 70%, rgba(70, 130, 255, 0.06) 0%, transparent 60%);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: rgba(16, 20, 30, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 3rem;
+            padding: 2.5rem 2.8rem;
+            border: 1px solid rgba(180, 70, 200, 0.25);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(180, 70, 200, 0.1) inset, 0 0 40px rgba(180, 70, 200, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        /* Encabezado */
+        .header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2.2rem;
+            border-bottom: 1px solid rgba(180, 70, 200, 0.2);
+            padding-bottom: 1.5rem;
+        }
+
+        .header h1 {
+            font-size: 2.6rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #d45b8c, #b84a8c, #8b2f9b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(184, 74, 140, 0.3);
+        }
+
+        .header h1 i {
+            background: none;
+            font-size: 2.4rem;
+            -webkit-text-fill-color: #b84a8c;
+            filter: drop-shadow(0 0 12px rgba(184, 74, 140, 0.5));
+        }
+
+        .header .badge-icon {
+            font-size: 2.4rem;
+            color: #b84a8c;
+            background: rgba(184, 74, 140, 0.15);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            border: 1px solid rgba(184, 74, 140, 0.3);
+            box-shadow: 0 0 20px rgba(184, 74, 140, 0.1);
+        }
+
+        .header .badge-icon i {
+            filter: drop-shadow(0 0 8px rgba(184, 74, 140, 0.4));
+        }
+
+        /* Badge / intro */
+        .intro-badge {
+            background: rgba(184, 74, 140, 0.15);
+            border-radius: 60px;
+            padding: 0.4rem 1.4rem;
+            display: inline-block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #d4a0e6;
+            letter-spacing: 0.5px;
+            margin-bottom: 1.2rem;
+            border: 1px solid rgba(184, 74, 140, 0.3);
+            backdrop-filter: blur(4px);
+        }
+
+        .intro-text {
+            font-size: 1.2rem;
+            color: #c8d0e0;
+            background: rgba(20, 24, 36, 0.6);
+            padding: 1.4rem 2rem;
+            border-radius: 2rem;
+            border-left: 6px solid #b84a8c;
+            margin-bottom: 2.5rem;
+            font-weight: 400;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(184, 74, 140, 0.1);
+        }
+
+        .intro-text strong {
+            color: #e4b0f0;
+            font-weight: 600;
+        }
+
+        .intro-text .highlight {
+            background: rgba(184, 74, 140, 0.2);
+            padding: 0.1rem 0.6rem;
+            border-radius: 30px;
+            font-weight: 600;
+            color: #d4a0e6;
+            border: 1px solid rgba(184, 74, 140, 0.2);
+        }
+
+        /* Grid de características */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 1.5rem;
+            margin: 2.5rem 0 2.8rem 0;
+        }
+
+        .feature-card {
+            background: rgba(20, 24, 36, 0.7);
+            border-radius: 1.8rem;
+            padding: 1.4rem 1.2rem;
+            text-align: center;
+            border: 1px solid rgba(184, 74, 140, 0.15);
+            transition: all 0.2s ease;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            border-color: #b84a8c;
+            box-shadow: 0 12px 30px -8px rgba(184, 74, 140, 0.3), 0 0 0 1px rgba(184, 74, 140, 0.2) inset;
+            background: rgba(30, 34, 50, 0.8);
+        }
+
+        .feature-card i {
+            font-size: 2.2rem;
+            color: #d45b8c;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            background: rgba(184, 74, 140, 0.15);
+            padding: 0.6rem;
+            border-radius: 60px;
+            width: 60px;
+            filter: drop-shadow(0 0 12px rgba(184, 74, 140, 0.2));
+            transition: all 0.2s;
+        }
+
+        .feature-card:hover i {
+            filter: drop-shadow(0 0 20px rgba(184, 74, 140, 0.5));
+            background: rgba(184, 74, 140, 0.25);
+        }
+
+        .feature-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: #e8d8f0;
+        }
+
+        .feature-card p {
+            font-size: 0.85rem;
+            color: #9aacbf;
+        }
+
+        /* Sección de estructura */
+        .section-title {
+            font-size: 1.9rem;
+            font-weight: 650;
+            margin: 2.2rem 0 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #e4d0f0;
+            text-shadow: 0 0 20px rgba(184, 74, 140, 0.2);
+        }
+
+        .section-title i {
+            color: #b84a8c;
+            font-size: 1.8rem;
+            filter: drop-shadow(0 0 12px rgba(184, 74, 140, 0.3));
+        }
+
+        .structure-box {
+            background: rgba(20, 24, 36, 0.5);
+            border-radius: 2rem;
+            padding: 1.8rem 2.2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 1.5rem;
+            margin: 1.2rem 0 2rem 0;
+            border: 1px solid rgba(184, 74, 140, 0.1);
+            backdrop-filter: blur(4px);
+        }
+
+        .structure-item {
+            flex: 1 1 150px;
+            background: rgba(16, 20, 30, 0.6);
+            border-radius: 1.8rem;
+            padding: 1.2rem 0.8rem;
+            text-align: center;
+            border: 1px solid rgba(184, 74, 140, 0.1);
+            transition: all 0.2s;
+        }
+
+        .structure-item:hover {
+            border-color: rgba(184, 74, 140, 0.3);
+            box-shadow: 0 0 20px rgba(184, 74, 140, 0.05);
+        }
+
+        .structure-item .num {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: #b84a8c;
+            background: rgba(184, 74, 140, 0.15);
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 60px;
+            margin: 0 auto 0.6rem auto;
+            border: 1px solid rgba(184, 74, 140, 0.2);
+        }
+
+        .structure-item h4 {
+            font-weight: 600;
+            color: #e4d0f0;
+        }
+
+        .structure-item p {
+            font-size: 0.9rem;
+            color: #9aacbf;
+        }
+
+        /* Tipos / tags */
+        .types-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin: 1.8rem 0 0.5rem 0;
+        }
+
+        .type-tag {
+            background: rgba(20, 24, 36, 0.6);
+            border-radius: 60px;
+            padding: 0.6rem 1.6rem;
+            border: 1px solid rgba(184, 74, 140, 0.2);
+            font-weight: 500;
+            color: #d0b8e0;
+            backdrop-filter: blur(4px);
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .type-tag i {
+            color: #b84a8c;
+            font-size: 0.9rem;
+        }
+
+        .type-tag:hover {
+            background: rgba(184, 74, 140, 0.15);
+            border-color: #b84a8c;
+            transform: scale(1.03);
+            box-shadow: 0 0 20px rgba(184, 74, 140, 0.1);
+        }
+
+        /* Bloque de código */
+        .code-block {
+            background: #0a0c12;
+            border-radius: 2rem;
+            padding: 1.8rem 2.2rem;
+            margin: 2rem 0 0.8rem 0;
+            border-left: 6px solid #b84a8c;
+            position: relative;
+            box-shadow: 0 0 40px rgba(184, 74, 140, 0.05), inset 0 0 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(184, 74, 140, 0.15);
+        }
+
+        .code-block .code-label {
+            color: #b84a8c;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+            opacity: 0.8;
+        }
+
+        .code-block code {
+            font-family: "Inter", "Fira Code", monospace;
+            color: #e0d0f0;
+            font-size: 0.95rem;
+            word-break: break-all;
+            display: block;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 0.8rem 1.2rem;
+            border-radius: 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            text-shadow: 0 0 10px rgba(184, 74, 140, 0.1);
+        }
+
+        .code-block .copy-btn {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.8rem;
+            background: rgba(184, 74, 140, 0.15);
+            border: 1px solid rgba(184, 74, 140, 0.2);
+            color: #d0b8e0;
+            padding: 0.4rem 1.2rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: "Inter", sans-serif;
+            backdrop-filter: blur(4px);
+        }
+
+        .code-block .copy-btn:hover {
+            background: rgba(184, 74, 140, 0.25);
+            border-color: #b84a8c;
+            color: #f0e0f8;
+            box-shadow: 0 0 20px rgba(184, 74, 140, 0.15);
+        }
+
+        .code-block .copy-btn.copied {
+            background: #2d8f5e;
+            border-color: #3db87a;
+            color: white;
+        }
+
+        /* examples block adaptado */
+        .examples-block {
+            background: rgba(20, 24, 36, 0.5);
+            border-radius: 2rem;
+            padding: 1.8rem 2.2rem;
+            margin: 2rem 0 0.8rem 0;
+            border-left: 6px solid #b84a8c;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(184, 74, 140, 0.1);
+        }
+
+        .examples-block p {
+            font-weight: 500;
+            margin-bottom: 0.4rem;
+            color: #e0d0f0;
+        }
+
+        .examples-block ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.6rem;
+            padding: 0.2rem 0;
+        }
+
+        .examples-block li {
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #c0b0d0;
+        }
+
+        .examples-block li i {
+            color: #b84a8c;
+            width: 1.2rem;
+            filter: drop-shadow(0 0 8px rgba(184, 74, 140, 0.2));
+        }
+
+        hr {
+            border: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(184, 74, 140, 0.3), transparent);
+            margin: 2rem 0 1.2rem 0;
+            border-radius: 10px;
+        }
+
+        .footer-note {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 0.5rem 0 0 0;
+            color: #9aacbf;
+            font-size: 0.95rem;
+        }
+
+        .footer-note i {
+            margin-right: 6px;
+            color: #b84a8c;
+        }
+
+        .creator-tag {
+            background: rgba(184, 74, 140, 0.1);
+            border-radius: 60px;
+            padding: 0.3rem 1.2rem;
+            font-weight: 500;
+            color: #d0b8e0;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(184, 74, 140, 0.15);
+        }
+
+        .creator-tag i {
+            color: #b84a8c;
+            filter: drop-shadow(0 0 8px rgba(184, 74, 140, 0.3));
+        }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+            .container {
+                padding: 1.8rem 1.2rem;
+                border-radius: 2rem;
+            }
+            .header h1 {
+                font-size: 2rem;
+            }
+            .intro-text {
+                font-size: 1rem;
+                padding: 1rem 1.2rem;
+            }
+            .structure-box {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .features-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .code-block code {
+                font-size: 0.8rem;
+                padding: 0.6rem 0.8rem;
+            }
+            .code-block .copy-btn {
+                position: static;
+                margin-top: 0.8rem;
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .header {
+                flex-direction: column;
+                align-items: start;
+                gap: 0.8rem;
+            }
+        }
+
+        /* Toast */
+        .toast-msg {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: #1a1a2e;
+            color: #f0e2f8;
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(184, 74, 140, 0.2);
+            opacity: 0;
+            transition: all 0.35s ease;
+            pointer-events: none;
+            border: 1px solid rgba(184, 74, 140, 0.2);
+            backdrop-filter: blur(8px);
+        }
+
+        .toast-msg.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast-msg i {
+            margin-right: 8px;
+            color: #b84a8c;
+        }
+
+        /* Efecto de brillo en contenedor */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 3rem;
+            background: linear-gradient(45deg, transparent, rgba(184, 74, 140, 0.1), transparent);
+            z-index: -1;
+            filter: blur(8px);
+            opacity: 0.5;
+        }
+
+        .container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Fondo animado sutil */
+        .container::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 40%, rgba(184, 74, 140, 0.03), transparent 60%);
+            z-index: -1;
+            animation: pulseGlow 20s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1) rotate(0deg); opacity: 0.4; }
+            100% { transform: scale(1.2) rotate(10deg); opacity: 0.8; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Toast -->
+    <div class="toast-msg" id="toast"><i class="fas fa-check-circle"></i> ¡Código copiado!</div>
+
+    <div class="container">
+
+        <!-- encabezado -->
+        <div class="header">
+            <h1>
+                <i class="fas fa-crown"></i> Happy Hub
+            </h1>
+            <span class="badge-icon"><i class="fas fa-rocket"></i></span>
+        </div>
+
+        <!-- badge + intro -->
+        <div>
+            <span class="intro-badge"><i class="fas fa-star" style="margin-right: 6px;"></i> Script Hub · MM2</span>
+            <div class="intro-text">
+                <i class="fas fa-quote-left" style="color: #b84a8c; margin-right: 10px; opacity: 0.7;"></i>
+                <strong>Happy Hub</strong> es un script hub gratuito, <span class="highlight">open source</span> y <span class="highlight">sin llave</span>, diseñado especialmente para <strong>Murder Mystery 2 (MM2)</strong>. Creado por <span class="highlight">ReplicatedMan</span>, ofrece una experiencia profesional y optimizada con soporte <strong>24/7</strong> para todas las actualizaciones del juego.
+            </div>
+        </div>
+
+        <!-- características / features -->
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-gamepad"></i>
+                <h3>Xeno Friendly</h3>
+                <p>Compatible con Xeno y otros ejecutores.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>Mobile Friendly</h3>
+                <p>Optimizado para dispositivos móviles.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-code"></i>
+                <h3>Open Source</h3>
+                <p>Código abierto para la comunidad.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-gem"></i>
+                <h3>Gratis</h3>
+                <p>Completamente gratuito, sin costes.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-unlock-alt"></i>
+                <h3>Sin llave</h3>
+                <p>No requiere key ni verificación.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-sync-alt"></i>
+                <h3>Actualizaciones 24/7</h3>
+                <p>Siempre al día con el juego.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-tachometer-alt"></i>
+                <h3>Optimizado</h3>
+                <p>Rendimiento máximo y ligero.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-briefcase"></i>
+                <h3>Profesional</h3>
+                <p>Calidad, estabilidad y confianza.</p>
+            </div>
+        </div>
+
+        <!-- estructura / info del hub -->
+        <div class="section-title">
+            <i class="fas fa-layer-group"></i> ¿Qué ofrece Happy Hub?
+        </div>
+        <div class="structure-box">
+            <div class="structure-item">
+                <div class="num">🎯</div>
+                <h4><i class="fas fa-bullseye" style="margin-right: 6px; color: #b84a8c;"></i> Automatización</h4>
+                <p>Scripts para agilizar tu experiencia en MM2.</p>
+            </div>
+            <div class="structure-item">
+                <div class="num">🛡️</div>
+                <h4><i class="fas fa-shield-alt" style="margin-right: 6px; color: #b84a8c;"></i> Seguridad</h4>
+                <p>Código revisado y estable sin riesgos.</p>
+            </div>
+            <div class="structure-item">
+                <div class="num">⚡</div>
+                <h4><i class="fas fa-bolt" style="margin-right: 6px; color: #b84a8c;"></i> Rendimiento</h4>
+                <p>Ejecución rápida y eficiente en todo momento.</p>
+            </div>
+        </div>
+
+        <!-- soporte y compatibilidad -->
+        <div class="section-title" style="margin-top: 1.2rem;">
+            <i class="fas fa-check-double"></i> Compatibilidad &amp; soporte
+        </div>
+        <div class="types-list">
+            <span class="type-tag"><i class="fas fa-check-circle"></i> Xeno</span>
+            <span class="type-tag"><i class="fas fa-check-circle"></i> Synapse</span>
+            <span class="type-tag"><i class="fas fa-check-circle"></i> Krnl</span>
+            <span class="type-tag"><i class="fas fa-check-circle"></i> Script-Ware</span>
+            <span class="type-tag"><i class="fas fa-check-circle"></i> Mobile (Android/iOS)</span>
+            <span class="type-tag"><i class="fas fa-check-circle"></i> PC / Mac</span>
+        </div>
+
+        <!-- cómo obtenerlo / código -->
+        <div class="section-title" style="margin-top: 2rem;">
+            <i class="fas fa-download"></i> Obtén Happy Hub
+        </div>
+        <div class="code-block">
+            <div class="code-label"><i class="fas fa-terminal"></i> Ejecuta esto en tu exploit</div>
+            <code id="hubCode">loadstring(game:HttpGet("https://raw.githubusercontent.com/overthcode2011-stack/HHB-MM2/refs/heads/main/Hub.lua"))()</code>
+            <button class="copy-btn" id="copyBtn"><i class="fas fa-copy"></i> Copiar</button>
+        </div>
+
+        <!-- info adicional -->
+        <div class="examples-block">
+            <p><i class="fas fa-info-circle" style="margin-right: 8px; color: #b84a8c;"></i> Detalles del hub</p>
+            <ul>
+                <li><i class="fas fa-user"></i> Creador: <strong>ReplicatedMan</strong></li>
+                <li><i class="fas fa-gamepad"></i> Juego: <strong>Murder Mystery 2 (MM2)</strong></li>
+                <li><i class="fas fa-sync-alt"></i> Estado: <strong>Actualización 24/7</strong></li>
+                <li><i class="fas fa-code-branch"></i> Licencia: <strong>Open Source</strong></li>
+                <li><i class="fas fa-gem"></i> Precio: <strong>Gratis · Sin llave</strong></li>
+            </ul>
+        </div>
+
+        <!-- recursos adicionales: etiquetas -->
+        <hr />
+        <div style="display: flex; flex-wrap: wrap; gap: 1.5rem 2rem; justify-content: space-between; align-items: center;">
+            <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+                <span style="background: rgba(184, 74, 140, 0.1); border-radius: 30px; padding: 0.3rem 1.2rem; font-size: 0.9rem; font-weight: 500; color: #d0b8e0; border: 1px solid rgba(184, 74, 140, 0.15);"><i class="fas fa-check" style="margin-right: 6px; color: #b84a8c;"></i>Sin key</span>
+                <span style="background: rgba(184, 74, 140, 0.1); border-radius: 30px; padding: 0.3rem 1.2rem; font-size: 0.9rem; font-weight: 500; color: #d0b8e0; border: 1px solid rgba(184, 74, 140, 0.15);"><i class="fas fa-check" style="margin-right: 6px; color: #b84a8c;"></i>Open Source</span>
+                <span style="background: rgba(184, 74, 140, 0.1); border-radius: 30px; padding: 0.3rem 1.2rem; font-size: 0.9rem; font-weight: 500; color: #d0b8e0; border: 1px solid rgba(184, 74, 140, 0.15);"><i class="fas fa-check" style="margin-right: 6px; color: #b84a8c;"></i>Xeno Friendly</span>
+                <span style="background: rgba(184, 74, 140, 0.1); border-radius: 30px; padding: 0.3rem 1.2rem; font-size: 0.9rem; font-weight: 500; color: #d0b8e0; border: 1px solid rgba(184, 74, 140, 0.15);"><i class="fas fa-check" style="margin-right: 6px; color: #b84a8c;"></i>Mobile Ready</span>
+            </div>
+            <div style="font-size: 0.9rem; color: #9aacbf;">
+                <i class="fas fa-code"></i> Happy Hub · v2.0
+            </div>
+        </div>
+
+        <!-- pie / footer -->
+        <div class="footer-note">
+            <span><i class="fas fa-crown" style="color: #b84a8c;"></i> Happy Hub · by ReplicatedMan</span>
+            <span class="creator-tag"><i class="fas fa-user-astronaut"></i> ReplicatedMan</span>
+            <span><i class="far fa-clock"></i> Actualizado 2026 · 24/7</span>
+        </div>
+
+    </div>
+    <!-- fin container -->
+
+    <script>
+        (function() {
+            const copyBtn = document.getElementById('copyBtn');
+            const codeEl = document.getElementById('hubCode');
+            const toast = document.getElementById('toast');
+            let toastTimeout = null;
+
+            function showToast(msg) {
+                toast.textContent = msg || '¡Código copiado!';
+                toast.classList.add('show');
+                clearTimeout(toastTimeout);
+                toastTimeout = setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2200);
+            }
+
+            copyBtn.addEventListener('click', function() {
+                const text = codeEl.textContent.trim();
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        showToast('¡Código copiado!');
+                        copyBtn.classList.add('copied');
+                        setTimeout(() => copyBtn.classList.remove('copied'), 1500);
+                    }).catch(() => {
+                        fallbackCopy(text);
+                    });
+                } else {
+                    fallbackCopy(text);
+                }
+            });
+
+            function fallbackCopy(text) {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed';
+                textarea.style.left = '-9999px';
+                textarea.style.top = '-9999px';
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    showToast('¡Código copiado!');
+                    copyBtn.classList.add('copied');
+                    setTimeout(() => copyBtn.classList.remove('copied'), 1500);
+                } catch (e) {
+                    showToast('Error al copiar, selecciona manualmente');
+                }
+                document.body.removeChild(textarea);
+            }
+
+            codeEl.addEventListener('click', function() {
+                const range = document.createRange();
+                range.selectNodeContents(this);
+                const sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(range);
+            });
+        })();
+    </script>
+
+</body>
+</html>
