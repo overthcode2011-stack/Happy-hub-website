@@ -3,22 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy hub</title>
+    <title>Happy Hub · Y2K Black Edition</title>
+
+    <!-- Y2K Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Audiowide&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
     <style>
+        /* ========== ROOT VARIABLES ========== */
         :root {
-            --bg: #000000;
-            --bg-secondary: #0a0a0a;
-            --bg-card: #111111;
-            --text: #ffffff;
-            --text-secondary: #b0b0b0;
-            --text-muted: #707070;
-            --accent: #ffffff;
-            --accent-glow: rgba(255, 255, 255, 0.08);
-            --success: #2ecc71;
-            --border: rgba(255, 255, 255, 0.06);
-            --border-hover: rgba(255, 255, 255, 0.12);
-            --radius: 10px;
-            --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --bg-dark: #000000;               /* TRUE BLACK */
+            --bg-grid: #0a0a0a;
+            --glass: rgba(255,255,255,0.04);
+            --glass-border: rgba(255,255,255,0.1);
+            --neon-cyan: #00f0ff;
+            --neon-lime: #39ff14;
+            --neon-pink: #ff00aa;
+            --neon-yellow: #ffff00;
+            --text-main: #ffffff;
+            --text-dim: #b8b8b8;
         }
 
         * {
@@ -28,488 +32,496 @@
         }
 
         body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: var(--font);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            padding: 2.5rem 1.5rem;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            letter-spacing: -0.011em;
-            line-height: 1.5;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Audiowide', sans-serif;
             overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
         }
 
-        .container {
-            max-width: 620px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* Header */
-        .header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 2.5rem;
-            text-align: center;
-        }
-
-        .hub-icon {
-            width: 84px;
-            height: 84px;
-            border-radius: 18px;
-            background: var(--bg-secondary);
-            padding: 6px;
-            border: 1px solid var(--border);
-            margin-bottom: 1rem;
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.03);
-            transition: border-color 0.2s;
-        }
-
-        .hub-icon img {
+        /* Animated grid background (pure black base) */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            border-radius: 14px;
-            object-fit: cover;
-            display: block;
+            background:
+                linear-gradient(rgba(0, 240, 255, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.06) 1px, transparent 1px),
+                radial-gradient(circle at 20% 20%, rgba(255, 0, 170, 0.1), transparent 40%),
+                radial-gradient(circle at 80% 60%, rgba(0, 255, 255, 0.1), transparent 50%);
+            background-size: 40px 40px, 40px 40px, 100% 100%, 100% 100%;
+            animation: gridMove 25s linear infinite;
+            z-index: -1;
+            pointer-events: none;
         }
 
-        .header h1 {
-            font-size: 1.9rem;
-            font-weight: 700;
-            letter-spacing: -0.04em;
-            color: var(--text);
-            margin-bottom: 0.25rem;
+        @keyframes gridMove {
+            from { background-position: 0 0, 0 0, 0 0, 0 0; }
+            to   { background-position: 40px 40px, 40px 40px, 0 0, 0 0; }
         }
 
-        .header p {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            font-weight: 450;
-        }
-
-        /* Sections */
-        .section {
-            width: 100%;
-            margin-bottom: 2.2rem;
-        }
-
-        .section-title {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--text-muted);
-            font-weight: 600;
-            margin-bottom: 0.9rem;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 0.5rem;
-        }
-
-        .mm2-text {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-            font-weight: 400;
-            background: var(--bg-card);
-            border-radius: var(--radius);
-            padding: 1.2rem 1.4rem;
-            border: 1px solid var(--border);
-        }
-
-        .mm2-text strong {
-            color: #fff;
-            font-weight: 550;
-        }
-
-        /* Tools */
-        .tools-grid {
+        /* ========== NAVBAR ========== */
+        .navbar {
             display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .tool-chip {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 0.45rem 1rem;
-            font-size: 0.82rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            transition: all 0.15s;
-            white-space: nowrap;
-            text-decoration: none;  /* added */
-        }
-
-        .tool-chip:hover {
-            border-color: var(--border-hover);
-            color: var(--text);
-        }
-
-        /* Link style for Xeno chip */
-        .tool-chip.xeno {
-            color: #fff;
-            border-color: rgba(255,255,255,0.15);
-        }
-
-        .tool-chip.xeno:hover {
-            background: #1a1a1a;
-            border-color: rgba(255,255,255,0.3);
-        }
-
-        .tool-chip.xeno::after {
-            content: " ↗";
-            font-size: 0.7rem;
-            margin-left: 0.3rem;
-            opacity: 0.7;
-        }
-
-        /* Script Box */
-        .script-box {
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2.5rem;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+            position: fixed;
+            top: 0;
             width: 100%;
-            background: var(--bg-secondary);
-            border-radius: var(--radius);
-            padding: 0.6rem;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: var(--neon-lime);
+            text-shadow: 0 0 10px var(--neon-lime), 0 0 20px rgba(57,255,20,0.5);
+            letter-spacing: 3px;
+        }
+
+        .nav-links a {
+            font-family: 'Audiowide', sans-serif;
+            font-size: 0.95rem;
+            margin-left: 2rem;
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            position: relative;
+            letter-spacing: 1px;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 8px var(--neon-cyan), 0 0 20px rgba(0,240,255,0.6);
+        }
+
+        .nav-links a.active::after {
+            content: "";
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+            margin-top: 4px;
+            animation: underlinePulse 1.5s infinite;
+        }
+
+        @keyframes underlinePulse {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+
+        /* ========== PAGE CONTAINER ========== */
+        .page {
+            display: none;
+            padding: 7rem 1.5rem 4rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .page.active {
+            display: block;
+            animation: pageIn 0.5s ease;
+        }
+
+        @keyframes pageIn {
+            from { opacity: 0; transform: translateY(30px) scale(0.98); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* ========== HOME PAGE ========== */
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: 5px;
+            background: linear-gradient(180deg, #fff, var(--neon-cyan) 60%, var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(0,240,255,0.6));
+            position: relative;
+            overflow: hidden;
+            animation: glitch 3s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 1px); }
+            40% { transform: translate(2px, -1px); }
+            60% { transform: translate(-1px, 2px); }
+            80% { transform: translate(1px, -2px); }
+        }
+
+        .hero p {
+            color: var(--text-dim);
+            max-width: 600px;
+            margin: 1.5rem auto;
+            font-size: 1.2rem;
+            line-height: 1.7;
+            text-shadow: 0 0 5px rgba(255,255,255,0.2);
+        }
+
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 2rem;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.8), inset 0 0 20px rgba(0,240,255,0.04);
+        }
+
+        .card h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-lime);
+            text-shadow: 0 0 8px var(--neon-lime);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .card p {
+            color: var(--text-dim);
+            line-height: 1.8;
+        }
+
+        /* ========== SCRIPT PAGE ========== */
+        .script-box {
+            background: rgba(0,0,0,0.9);
+            border: 2px solid var(--neon-cyan);
+            border-radius: 15px;
+            padding: 1.5rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1.8rem;
-            border: 1px solid var(--border);
-            transition: border-color 0.2s;
+            gap: 1rem;
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,240,255,0.3);
         }
 
-        .script-box:hover {
-            border-color: var(--border-hover);
+        .script-box::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shine 3s infinite;
         }
 
-        .script-code {
+        @keyframes shine {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        textarea {
             flex: 1;
-            font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
-            font-size: 0.75rem;
-            color: #cfcfcf;
             background: transparent;
             border: none;
-            outline: none;
-            padding: 0.5rem 0.75rem;
+            color: #fff;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85rem;
             resize: none;
-            line-height: 1.5;
-            overflow-x: auto;
+            outline: none;
             white-space: nowrap;
-            min-width: 0;
-            letter-spacing: -0.01em;
-            scrollbar-width: thin;
-            scrollbar-color: var(--bg-card) transparent;
-        }
-
-        .script-code::-webkit-scrollbar {
-            height: 4px;
-        }
-        .script-code::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .script-code::-webkit-scrollbar-thumb {
-            background: var(--bg-card);
-            border-radius: 2px;
+            overflow-x: auto;
         }
 
         .copy-btn {
-            background: var(--bg-card);
-            color: #fff;
-            border: 1px solid var(--border);
-            padding: 0.55rem 1.1rem;
+            background: linear-gradient(180deg, var(--neon-cyan), #00aabb);
+            color: #000;
+            border: 1px solid #fff;
+            padding: 0.8rem 1.5rem;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
             border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 550;
             cursor: pointer;
-            transition: all 0.15s ease;
-            font-family: var(--font);
-            letter-spacing: -0.01em;
-            white-space: nowrap;
-            flex-shrink: 0;
-            background: #1a1a1a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+            box-shadow: 0 0 12px var(--neon-cyan), 0 0 30px rgba(0,240,255,0.4);
         }
 
         .copy-btn:hover {
-            border-color: var(--border-hover);
-            background: #222;
-            transform: translateY(-1px);
-        }
-
-        .copy-btn:active {
-            transform: translateY(0);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px var(--neon-cyan), 0 0 40px rgba(0,240,255,0.6);
         }
 
         .copy-btn.copied {
-            background: #1e3a2f;
-            border-color: #2ecc71;
-            color: #2ecc71;
+            background: linear-gradient(180deg, var(--neon-lime), #7fff00);
+            box-shadow: 0 0 12px var(--neon-lime);
         }
 
-        /* Features */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.6rem;
-            width: 100%;
-            margin-bottom: 2.5rem;
+        .info {
+            margin-top: 2rem;
+            color: var(--text-dim);
+            line-height: 2;
         }
 
-        .feature {
-            background: var(--bg-card);
-            border-radius: 8px;
-            padding: 0.9rem 1.1rem;
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 0.7rem;
-            transition: border-color 0.15s;
+        .info ol {
+            list-style: none;
+            counter-reset: step;
         }
 
-        .feature:hover {
-            border-color: var(--border-hover);
+        .info li {
+            counter-increment: step;
+            margin-bottom: 0.5rem;
         }
 
-        .feature-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            flex-shrink: 0;
-            background: var(--text-secondary);
-            box-shadow: 0 0 6px rgba(255,255,255,0.2);
+        .info li::before {
+            content: counter(step);
+            color: var(--neon-pink);
+            font-weight: bold;
+            margin-right: 0.8rem;
+            text-shadow: 0 0 8px var(--neon-pink);
         }
 
-        .feature-dot.green {
-            background: #2ecc71;
-            box-shadow: 0 0 6px rgba(46,204,113,0.3);
-        }
-
-        .feature span {
-            font-size: 0.82rem;
-            color: var(--text-secondary);
-            font-weight: 450;
-            letter-spacing: -0.01em;
-        }
-
-        /* New: Xeno CTA */
-        .xeno-cta {
-            width: 100%;
+        /* ========== DOWNLOAD PAGE ========== */
+        .download-card {
+            background: rgba(0,0,0,0.85);
+            border: 2px solid var(--neon-pink);
+            border-radius: 20px;
+            padding: 3rem;
             text-align: center;
-            margin-bottom: 1.8rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 25px rgba(255,0,170,0.3), inset 0 0 30px rgba(255,0,170,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
-        .xeno-cta a {
+        .download-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 40px rgba(255,0,170,0.5), inset 0 0 30px rgba(255,0,170,0.2);
+        }
+
+        .download-card h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(255,0,170,0.6));
+        }
+
+        .download-btn {
             display: inline-block;
-            background: #1a1a1a;
-            border: 1px solid var(--border);
-            color: #fff;
+            background: linear-gradient(180deg, var(--neon-yellow), #ffaa00);
+            color: #000;
+            padding: 1.2rem 3rem;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 1.5rem;
             text-decoration: none;
-            padding: 0.55rem 1.4rem;
-            border-radius: 8px;
-            font-size: 0.82rem;
-            font-weight: 550;
-            transition: all 0.15s;
+            border-radius: 30px;
+            margin-top: 2rem;
+            border: 1px solid #fff;
+            box-shadow: 0 0 15px var(--neon-yellow), 0 0 30px rgba(255,255,0,0.4);
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        .xeno-cta a:hover {
-            border-color: var(--border-hover);
-            background: #222;
-            transform: translateY(-1px);
+        .download-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px var(--neon-yellow), 0 0 60px rgba(255,255,0,0.6);
         }
 
-        /* Credits */
-        .credits {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.8rem;
-            padding: 1.2rem 0;
-            border-top: 1px solid var(--border);
-            margin-top: 0.5rem;
+        /* ========== CREDITS PAGE ========== */
+        .credit-box {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            backdrop-filter: blur(8px);
         }
 
-        .credits-avatar {
-            width: 36px;
-            height: 36px;
+        .avatar {
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            background: #111;
-            flex-shrink: 0;
-        }
-
-        .credits-avatar img {
-            width: 100%;
-            height: 100%;
             object-fit: cover;
+            margin-bottom: 1rem;
+            border: 3px solid var(--neon-cyan);
+            box-shadow: 0 0 20px var(--neon-cyan);
         }
 
-        .credits-text {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
+        .credit-box h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-lime);
+            text-shadow: 0 0 10px var(--neon-lime);
         }
 
-        .credits-text a {
+        .role {
+            color: var(--neon-pink);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+        }
+
+        .credit-box a {
             color: #fff;
             text-decoration: none;
-            font-weight: 550;
-            transition: color 0.15s;
+            border-bottom: 2px solid var(--neon-cyan);
+            padding-bottom: 2px;
+            transition: color 0.2s, border-color 0.2s;
         }
 
-        .credits-text a:hover {
-            color: #ccc;
+        .credit-box a:hover {
+            color: var(--neon-cyan);
+            border-color: var(--neon-pink);
         }
 
-        .credits-text span {
-            color: var(--text-muted);
-            font-size: 0.75rem;
-        }
-
-        @media (max-width: 480px) {
-            .features {
-                grid-template-columns: 1fr;
-                gap: 0.5rem;
-            }
-            .script-box {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-            .script-code {
-                width: 100%;
-                font-size: 0.7rem;
-                padding: 0.4rem 0.5rem;
-            }
-            .copy-btn {
-                width: 100%;
-                padding: 0.6rem;
-                text-align: center;
-            }
-            .header h1 {
-                font-size: 1.5rem;
-            }
-            .hub-icon {
-                width: 68px;
-                height: 68px;
-                border-radius: 14px;
-            }
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 0 3rem;
+            color: #555;
+            font-size: 0.8rem;
+            border-top: 1px solid var(--glass-border);
+            font-family: 'Share Tech Mono', monospace;
         }
     </style>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <div class="hub-icon">
-                <img src="https://tr.rbxcdn.com/180DAY-85562c0efb45221628a4c872e35cf587/420/420/Decal/Webp/noFilter" alt="HHB-MM2 Hub Icon">
-            </div>
-            <h1>Happy hub</h1>
-            <p>Free · Keyless · Open Source</p>
-        </div>
 
-        <!-- MM2 Section -->
-        <div class="section">
-            <div class="section-title">What is this shit?</div>
-            <div class="mm2-text">
-                <strong>HHB-MM2</strong> is a dedicated script hub for <strong>Murder Mystery 2</strong> on Roblox. 
-                Built for performance and reliability, it enhances gameplay with essential tools while remaining 
-                completely free and open source. No key required — just load and play.
-            </div>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo">HAPPY HUB</div>
+        <div class="nav-links">
+            <a onclick="showPage('home')" class="active" id="nav-home">Home</a>
+            <a onclick="showPage('script')" id="nav-script">Script Hub</a>
+            <a onclick="showPage('download')" id="nav-download">Download</a>
+            <a onclick="showPage('credits')" id="nav-credits">Credits</a>
         </div>
+    </nav>
 
-        <!-- Tools Section -->
-        <div class="section">
-            <div class="section-title">Tools Used</div>
-            <div class="tools-grid">
-                <span class="tool-chip">Dex++</span>
-                <span class="tool-chip">Roblox Studio</span>
-                <a class="tool-chip xeno" href="https://www.xeno.now/" target="_blank" rel="noopener noreferrer">Xeno Executor</a>
-                <span class="tool-chip">Cobalt</span>
-                <span class="tool-chip">Infinite Yield</span>
-            </div>
+    <!-- HOME PAGE -->
+    <div id="home" class="page active">
+        <div class="hero">
+            <h1 id="typingText">HELLO BXTCH!</h1>
+            <p>Free · Keyless · Open Source<br>Load it, execute it, dominate.</p>
         </div>
-
-        <!-- Script Box -->
-        <div class="script-box">
-            <textarea class="script-code" readonly spellcheck="false" id="scriptText">loadstring(game:HttpGet("https://raw.githubusercontent.com/overthcode2011-stack/HHB-MM2/refs/heads/main/Hub.lua"))()</textarea>
-            <button class="copy-btn" id="copyBtn" type="button">Copy</button>
+        <div class="card">
+            <h2>WHAT IS THIS?</h2>
+            <p>HHB-MM2 is a script hub for Murder Mystery 2. No keys, no bullshit. Just open source code you can inspect and modify.</p>
         </div>
-
-        <!-- Xeno CTA -->
-        <div class="xeno-cta">
-            <a href="https://www.xeno.now/" target="_blank" rel="noopener noreferrer">Download Xeno Executor</a>
-        </div>
-
-        <!-- Features -->
-        <div class="features">
-            <div class="feature">
-                <div class="feature-dot green"></div>
-                <span>No key required</span>
-            </div>
-            <div class="feature">
-                <div class="feature-dot"></div>
-                <span>Xeno Friendly</span>
-            </div>
-            <div class="feature">
-                <div class="feature-dot green"></div>
-                <span>Open source</span>
-            </div>
-            <div class="feature">
-                <div class="feature-dot"></div>
-                <span>Mobile — soon</span>
-            </div>
-        </div>
-
-        <!-- Credits -->
-        <div class="credits">
-            <div class="credits-avatar">
-                <img src="https://avatars.githubusercontent.com/u/284167512?s=400&u=e81860e2a4085885840ca3a9c17177d795c61630&v=4" alt="Replicated man">
-            </div>
-            <div class="credits-text">
-                Created by <a href="https://github.com/overthcode2011-stack" target="_blank" rel="noopener noreferrer">Replicated man</a><br>
-                <span>GitHub</span>
-            </div>
+        <div class="card">
+            <h2>HOW TO USE?</h2>
+            <p>Just execute the script, go to ESP page and enable the option "Murder Mystery 2", then you go to Misc page and select a cheat.</p>
         </div>
     </div>
 
+    <!-- SCRIPT PAGE -->
+    <div id="script" class="page">
+        <h1 style="font-family:'Orbitron', sans-serif; font-size:2.8rem; color:var(--neon-cyan); text-shadow:0 0 10px var(--neon-cyan);">SCRIPT HUB</h1>
+        <p style="color:#aaa;">Copy the code below and execute it in your Roblox executor.</p>
+        <div class="script-box">
+            <textarea id="scriptText" readonly>loadstring(game:HttpGet("https://raw.githubusercontent.com/overthcode2011-stack/HHB-MM2/refs/heads/main/Hub.lua"))()</textarea>
+            <button class="copy-btn" id="copyBtn">Copy</button>
+        </div>
+        <div class="info">
+            <p>HOW TO USE:</p>
+            <ol>
+                <li>Copy the script.</li>
+                <li>Open your executor (e.g., Xeno).</li>
+                <li>Paste and execute.</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- DOWNLOAD PAGE -->
+    <div id="download" class="page">
+        <div class="download-card">
+            <h1>GET XENO</h1>
+            <p style="font-size:1.2rem; color:#fff;">The best free executor for the hub</p>
+            <a class="download-btn" href="https://www.xeno.now/" target="_blank" rel="noopener noreferrer">CLICK HERE</a>
+            <p style="margin-top:2rem; font-size:0.8rem; color:#777;">Redirects to xeno.now</p>
+        </div>
+    </div>
+
+    <!-- CREDITS PAGE -->
+    <div id="credits" class="page">
+        <div class="credit-box">
+            <img class="avatar" src="https://avatars.githubusercontent.com/u/284167512?s=400&u=e81860e2a4085885840ca3a9c17177d795c61630&v=4" alt="Author">
+            <h2>REPLICATED MAN</h2>
+            <p class="role">CREATOR & DEVELOPER</p>
+            <p style="color:#aaa;">Made this hub for the community. Free forever.<br>Donate? DM me on discord. No keys. No paywalls.</p>
+            <p style="margin-top:1.5rem;"><a href="https://github.com/overthcode2011-stack" target="_blank">GITHUB</a></p>
+        </div>
+    </div>
+
+    <footer>© 2026 HAPPY HUB — Y2K BLACK EDITION</footer>
+
+    <!-- SCRIPTS -->
     <script>
-        const scriptText = document.getElementById('scriptText');
+        // ---- Page switching ----
+        const navMap = {
+            home: 'nav-home',
+            script: 'nav-script',
+            download: 'nav-download',
+            credits: 'nav-credits'
+        };
+
+        function showPage(name) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(name).classList.add('active');
+
+            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+            document.getElementById(navMap[name]).classList.add('active');
+
+            window.scrollTo(0, 0);
+        }
+
+        // ---- Typing effect ----
+        const typingText = document.getElementById('typingText');
+        const fullText = "HELLO BXTCH!";
+        let charIndex = 0;
+        function typeWriter() {
+            if (charIndex <= fullText.length) {
+                typingText.textContent = fullText.slice(0, charIndex);
+                charIndex++;
+                setTimeout(typeWriter, 100);
+            }
+        }
+        typeWriter();
+
+        // ---- Copy script ----
         const copyBtn = document.getElementById('copyBtn');
+        const scriptText = document.getElementById('scriptText');
 
         copyBtn.addEventListener('click', async () => {
-            const text = scriptText.value.trim();
             try {
-                await navigator.clipboard.writeText(text);
-                copyBtn.textContent = 'Copied';
-                copyBtn.classList.add('copied');
-                setTimeout(() => {
-                    copyBtn.textContent = 'Copy';
-                    copyBtn.classList.remove('copied');
-                }, 1600);
+                await navigator.clipboard.writeText(scriptText.value.trim());
             } catch {
                 scriptText.select();
-                scriptText.setSelectionRange(0, text.length);
                 document.execCommand('copy');
-                scriptText.blur();
-                copyBtn.textContent = 'Copied';
-                copyBtn.classList.add('copied');
-                setTimeout(() => {
-                    copyBtn.textContent = 'Copy';
-                    copyBtn.classList.remove('copied');
-                }, 1600);
             }
+            copyBtn.textContent = 'COPIED';
+            copyBtn.classList.add('copied');
+            setTimeout(() => {
+                copyBtn.textContent = 'COPY';
+                copyBtn.classList.remove('copied');
+            }, 1600);
         });
-
-        scriptText.addEventListener('focus', () => scriptText.select());
     </script>
 </body>
 </html>
