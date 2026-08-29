@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HHB-MM2 · Murder Mystery 2 Hub</title>
+    <title>Happy hub</title>
     <style>
         :root {
             --bg: #000000;
@@ -145,11 +145,30 @@
             color: var(--text-secondary);
             transition: all 0.15s;
             white-space: nowrap;
+            text-decoration: none;  /* added */
         }
 
         .tool-chip:hover {
             border-color: var(--border-hover);
             color: var(--text);
+        }
+
+        /* Link style for Xeno chip */
+        .tool-chip.xeno {
+            color: #fff;
+            border-color: rgba(255,255,255,0.15);
+        }
+
+        .tool-chip.xeno:hover {
+            background: #1a1a1a;
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        .tool-chip.xeno::after {
+            content: " ↗";
+            font-size: 0.7rem;
+            margin-left: 0.3rem;
+            opacity: 0.7;
         }
 
         /* Script Box */
@@ -278,6 +297,32 @@
             letter-spacing: -0.01em;
         }
 
+        /* New: Xeno CTA */
+        .xeno-cta {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 1.8rem;
+        }
+
+        .xeno-cta a {
+            display: inline-block;
+            background: #1a1a1a;
+            border: 1px solid var(--border);
+            color: #fff;
+            text-decoration: none;
+            padding: 0.55rem 1.4rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 550;
+            transition: all 0.15s;
+        }
+
+        .xeno-cta a:hover {
+            border-color: var(--border-hover);
+            background: #222;
+            transform: translateY(-1px);
+        }
+
         /* Credits */
         .credits {
             width: 100%;
@@ -367,13 +412,13 @@
             <div class="hub-icon">
                 <img src="https://tr.rbxcdn.com/180DAY-85562c0efb45221628a4c872e35cf587/420/420/Decal/Webp/noFilter" alt="HHB-MM2 Hub Icon">
             </div>
-            <h1>HHB-MM2</h1>
+            <h1>Happy hub</h1>
             <p>Free · Keyless · Open Source</p>
         </div>
 
         <!-- MM2 Section -->
         <div class="section">
-            <div class="section-title">Murder Mystery 2</div>
+            <div class="section-title">What is this shit?</div>
             <div class="mm2-text">
                 <strong>HHB-MM2</strong> is a dedicated script hub for <strong>Murder Mystery 2</strong> on Roblox. 
                 Built for performance and reliability, it enhances gameplay with essential tools while remaining 
@@ -387,8 +432,8 @@
             <div class="tools-grid">
                 <span class="tool-chip">Dex++</span>
                 <span class="tool-chip">Roblox Studio</span>
-                <span class="tool-chip">Xeno Executor</span>
-                <span class="tool-chip">Cobalt (remote spy)</span>
+                <a class="tool-chip xeno" href="https://www.xeno.now/" target="_blank" rel="noopener noreferrer">Xeno Executor</a>
+                <span class="tool-chip">Cobalt</span>
                 <span class="tool-chip">Infinite Yield</span>
             </div>
         </div>
@@ -397,6 +442,11 @@
         <div class="script-box">
             <textarea class="script-code" readonly spellcheck="false" id="scriptText">loadstring(game:HttpGet("https://raw.githubusercontent.com/overthcode2011-stack/HHB-MM2/refs/heads/main/Hub.lua"))()</textarea>
             <button class="copy-btn" id="copyBtn" type="button">Copy</button>
+        </div>
+
+        <!-- Xeno CTA -->
+        <div class="xeno-cta">
+            <a href="https://www.xeno.now/" target="_blank" rel="noopener noreferrer">Download Xeno Executor</a>
         </div>
 
         <!-- Features -->
