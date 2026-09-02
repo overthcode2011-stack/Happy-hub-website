@@ -8,11 +8,12 @@
     <link rel="icon" type="image/png" href="https://tr.rbxcdn.com/180DAY-85562c0efb45221628a4c872e35cf587/150/150/Decal/Webp/noFilter" />
     <link rel="shortcut icon" type="image/png" href="https://tr.rbxcdn.com/180DAY-85562c0efb45221628a4c872e35cf587/150/150/Decal/Webp/noFilter" />
 
-    <!-- Roblox Font (BuilderSans) & fallbacks -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
 
     <style>
-        /* ---------- ROOT VARIABLES (B&W + Green) ---------- */
+        /* ============================================================
+           ROOT VARIABLES
+           ============================================================ */
         * {
             margin: 0;
             padding: 0;
@@ -20,19 +21,23 @@
         }
 
         :root {
-            --bg-primary: #0f0f0f;
-            --bg-secondary: #1a1a1a;
-            --bg-card: #141414;
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #161616;
+            --bg-card-hover: #1c1c1c;
             --bg-input: #1e1e1e;
             --text-primary: #f0f0f0;
-            --text-secondary: #b0b0b0;
-            --text-muted: #6e6e6e;
+            --text-secondary: #a8a8a8;
+            --text-muted: #5e5e5e;
             --accent-green: #00a86b;
             --accent-green-light: #00cc84;
             --accent-green-dark: #008a56;
-            --border-color: #2a2a2a;
-            --shadow-glow: rgba(0, 168, 107, 0.15);
+            --border-color: #282828;
+            --border-hover: #3a3a3a;
             --font-main: 'Inter', 'BuilderSans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --radius: 12px;
+            --radius-sm: 6px;
+            --transition: 0.2s ease;
         }
 
         body {
@@ -42,126 +47,174 @@
             min-height: 100vh;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* subtle grid */
         body::before {
             content: "";
             position: fixed;
             inset: 0;
             background-image:
-                linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+                linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
             background-size: 48px 48px;
             z-index: -1;
             pointer-events: none;
         }
 
-        /* scrollbar */
-        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: var(--bg-secondary); }
-        ::-webkit-scrollbar-thumb { background: var(--accent-green); border-radius: 6px; }
+        ::-webkit-scrollbar-thumb { background: var(--accent-green); border-radius: 4px; }
 
-        /* ---------- NAVBAR ---------- */
+        /* ============================================================
+           NAVBAR
+           ============================================================ */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.8rem 2.5rem;
-            background: rgba(10, 10, 10, 0.92);
+            padding: 0 2.5rem;
+            background: rgba(10, 10, 10, 0.95);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color);
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 1000;
+            height: 60px;
         }
 
         .logo {
             font-weight: 700;
-            font-size: 1.5rem;
-            letter-spacing: 0.5px;
+            font-size: 1.3rem;
+            letter-spacing: -0.3px;
             color: var(--text-primary);
             display: flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 0.5rem;
+            cursor: pointer;
         }
+
         .logo img {
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             border-radius: 4px;
             display: block;
         }
+
         .logo span {
             color: var(--accent-green);
         }
 
+        .nav-links {
+            display: flex;
+            gap: 0.1rem;
+            align-items: center;
+        }
+
         .nav-links a {
-            font-size: 0.9rem;
-            margin-left: 2rem;
+            font-size: 0.82rem;
+            padding: 0.4rem 1rem;
             color: var(--text-secondary);
             text-decoration: none;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all var(--transition);
             font-weight: 500;
-            padding-bottom: 3px;
-            border-bottom: 2px solid transparent;
+            border-radius: var(--radius-sm);
         }
 
         .nav-links a:hover {
             color: var(--text-primary);
+            background: rgba(255,255,255,0.04);
         }
 
         .nav-links a.active {
             color: var(--text-primary);
-            border-bottom-color: var(--accent-green);
+            background: rgba(0, 168, 107, 0.08);
         }
 
-        /* ---------- PAGE CONTAINER ---------- */
+        /* ============================================================
+           PAGE CONTAINER
+           ============================================================ */
         .page {
             display: none;
-            padding: 7rem 2rem 4rem;
-            max-width: 880px;
+            padding: 5.5rem 2rem 3rem;
+            max-width: 860px;
             margin: 0 auto;
+            min-height: calc(100vh - 60px);
         }
 
         .page.active {
             display: block;
-            animation: fadeIn 0.35s ease;
+            animation: fadeIn 0.3s ease;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(16px); }
+            from { opacity: 0; transform: translateY(12px); }
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* ---------- CARDS ---------- */
+        /* ============================================================
+           PAGE HEADERS
+           ============================================================ */
+        .page-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1.2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .page-header h1 {
+            font-weight: 700;
+            font-size: 2.2rem;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 0.2rem;
+        }
+
+        .page-header .tag {
+            display: inline-block;
+            background: rgba(0, 168, 107, 0.06);
+            border: 1px solid rgba(0, 168, 107, 0.12);
+            color: var(--accent-green);
+            padding: 0.15rem 1rem;
+            border-radius: 14px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            margin-top: 0.4rem;
+        }
+
+        /* ============================================================
+           CARDS
+           ============================================================ */
         .card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 2rem 2.2rem;
-            margin-bottom: 1.2rem;
-            transition: border-color 0.2s;
+            border-radius: var(--radius);
+            padding: 1.5rem 1.8rem;
+            transition: border-color var(--transition), background var(--transition);
         }
 
         .card:hover {
-            border-color: #3a3a3a;
+            border-color: var(--border-hover);
+            background: var(--bg-card-hover);
         }
 
         .card h2 {
             font-weight: 600;
-            font-size: 1.2rem;
+            font-size: 1.05rem;
             color: var(--text-primary);
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.3rem;
             letter-spacing: -0.2px;
         }
 
         .card p {
             color: var(--text-secondary);
             line-height: 1.7;
-            font-size: 0.95rem;
+            font-size: 0.92rem;
         }
 
         .card .highlight {
@@ -169,17 +222,19 @@
             font-weight: 600;
         }
 
-        /* ---------- HOME ---------- */
+        /* ============================================================
+           HOME PAGE
+           ============================================================ */
         .hero {
             text-align: center;
             padding: 2.5rem 0 2rem;
         }
 
         .hero h1 {
-            font-weight: 700;
-            font-size: 4.2rem;
-            letter-spacing: -1px;
-            background: linear-gradient(135deg, #fff 50%, var(--accent-green-light));
+            font-weight: 800;
+            font-size: 3.8rem;
+            letter-spacing: -1.5px;
+            background: linear-gradient(135deg, #ffffff 45%, var(--accent-green-light));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -187,41 +242,120 @@
 
         .hero p {
             color: var(--text-secondary);
-            max-width: 550px;
-            margin: 1.2rem auto 0.5rem;
-            font-size: 1.1rem;
+            max-width: 480px;
+            margin: 0.8rem auto 0.2rem;
+            font-size: 1.05rem;
             line-height: 1.6;
         }
 
-        .badge {
+        .hero .badge {
             display: inline-block;
-            background: rgba(0, 168, 107, 0.08);
-            border: 1px solid rgba(0, 168, 107, 0.2);
+            background: rgba(0, 168, 107, 0.06);
+            border: 1px solid rgba(0, 168, 107, 0.12);
             color: var(--accent-green);
-            padding: 0.25rem 1.4rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
+            padding: 0.2rem 1.4rem;
+            border-radius: 16px;
+            font-size: 0.7rem;
             font-weight: 500;
-            margin-top: 0.8rem;
+            margin-top: 0.6rem;
         }
 
-        .grid-2 {
+        /* ============================================================
+           GAME CATALOG
+           ============================================================ */
+        .catalog-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 1.2rem;
-            margin-top: 1rem;
+            margin-top: 1.2rem;
         }
 
-        /* ---------- SCRIPT BOX ---------- */
+        .game-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1.2rem 1rem;
+            text-align: center;
+            transition: border-color var(--transition), background var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-card:hover {
+            border-color: var(--border-hover);
+            background: var(--bg-card-hover);
+        }
+
+        .game-card img {
+            width: 100%;
+            max-width: 120px;
+            height: auto;
+            aspect-ratio: 1/1;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 0.6rem;
+            background: var(--bg-secondary);
+            padding: 0.3rem;
+        }
+
+        .game-card .game-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            letter-spacing: -0.2px;
+        }
+
+        .game-card .game-status {
+            font-size: 0.7rem;
+            font-weight: 500;
+            margin-top: 0.3rem;
+            display: inline-block;
+            padding: 0.1rem 0.8rem;
+            border-radius: 12px;
+        }
+
+        .game-status.working {
+            color: var(--accent-green);
+            background: rgba(0, 168, 107, 0.08);
+            border: 1px solid rgba(0, 168, 107, 0.1);
+        }
+
+        .game-status.soon {
+            color: #f0a030;
+            background: rgba(240, 160, 48, 0.08);
+            border: 1px solid rgba(240, 160, 48, 0.15);
+        }
+
+        .game-card .soon-overlay {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #f0a030;
+            color: #0a0a0a;
+            font-weight: 700;
+            font-size: 0.6rem;
+            padding: 0.15rem 0.6rem;
+            border-radius: 0 var(--radius) 0 8px;
+            letter-spacing: 0.5px;
+        }
+
+        /* ============================================================
+           SCRIPT PAGE
+           ============================================================ */
         .script-box {
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 0.8rem 1.2rem;
+            border-radius: var(--radius);
+            padding: 0.4rem 0.4rem 0.4rem 1rem;
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin: 1.8rem 0 1.2rem;
+            gap: 0.6rem;
+            margin: 1.2rem 0;
+            transition: border-color var(--transition);
+        }
+
+        .script-box:focus-within {
+            border-color: var(--accent-green);
         }
 
         .script-box textarea {
@@ -229,29 +363,35 @@
             background: transparent;
             border: none;
             color: var(--text-primary);
-            font-family: 'Inter', monospace;
-            font-size: 0.85rem;
+            font-family: 'Inter', 'Menlo', monospace;
+            font-size: 0.78rem;
             resize: none;
             outline: none;
             white-space: nowrap;
             overflow-x: auto;
             padding: 0.4rem 0;
             line-height: 1.5;
+            min-height: 34px;
+        }
+
+        .script-box textarea::-webkit-scrollbar {
+            height: 3px;
         }
 
         .copy-btn {
             background: var(--accent-green);
             color: #fff;
             border: none;
-            padding: 0.5rem 1.5rem;
+            padding: 0.45rem 1.4rem;
             font-weight: 600;
-            font-size: 0.8rem;
-            border-radius: 8px;
+            font-size: 0.75rem;
+            border-radius: var(--radius-sm);
             cursor: pointer;
-            transition: background 0.2s, transform 0.1s;
+            transition: background var(--transition);
             font-family: var(--font-main);
-            letter-spacing: 0.3px;
+            letter-spacing: 0.2px;
             white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .copy-btn:hover {
@@ -268,22 +408,29 @@
 
         .steps {
             background: var(--bg-secondary);
-            border-left: 3px solid var(--accent-green);
-            padding: 1.2rem 1.8rem;
-            border-radius: 10px;
-            margin-top: 1.2rem;
+            border-left: 2px solid var(--accent-green);
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius);
+            margin: 1.2rem 0;
+        }
+
+        .steps .steps-title {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 0.4rem;
         }
 
         .steps ol {
             list-style: none;
             counter-reset: step;
             color: var(--text-secondary);
-            font-size: 0.95rem;
+            font-size: 0.88rem;
         }
 
         .steps li {
             counter-increment: step;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
             display: flex;
             align-items: baseline;
         }
@@ -293,146 +440,298 @@
             background: var(--accent-green);
             color: #fff;
             font-weight: 700;
-            font-size: 0.7rem;
-            width: 22px;
-            height: 22px;
+            font-size: 0.6rem;
+            width: 20px;
+            height: 20px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            margin-right: 0.8rem;
+            margin-right: 0.7rem;
             flex-shrink: 0;
         }
 
-        /* ---------- DOWNLOAD ---------- */
+        .script-meta {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            margin-top: 0.8rem;
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .script-meta strong {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* ============================================================
+           DOWNLOAD PAGE
+           ============================================================ */
         .download-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
+            border-radius: var(--radius);
             padding: 3rem 2rem;
             text-align: center;
-            transition: border-color 0.2s;
+            transition: border-color var(--transition), background var(--transition);
         }
 
         .download-card:hover {
-            border-color: #3a3a3a;
+            border-color: var(--border-hover);
+            background: var(--bg-card-hover);
         }
 
         .download-card h1 {
             font-weight: 700;
-            font-size: 2.8rem;
+            font-size: 2.6rem;
             color: var(--text-primary);
+            letter-spacing: -0.5px;
         }
+
         .download-card h1 span {
             color: var(--accent-green);
+        }
+
+        .download-card .subtitle {
+            color: var(--text-secondary);
+            margin-top: 0.2rem;
+            font-size: 0.95rem;
         }
 
         .download-btn {
             display: inline-block;
             background: var(--accent-green);
             color: #fff;
-            padding: 0.9rem 2.8rem;
+            padding: 0.8rem 2.8rem;
             font-weight: 600;
-            font-size: 1.2rem;
+            font-size: 1rem;
             text-decoration: none;
             border-radius: 40px;
             margin-top: 1.5rem;
-            transition: background 0.2s, transform 0.15s;
+            transition: background var(--transition);
             font-family: var(--font-main);
         }
 
         .download-btn:hover {
             background: var(--accent-green-light);
-            transform: scale(1.02);
         }
 
-        /* ---------- CREDITS ---------- */
+        .download-card .footer-note {
+            margin-top: 1.8rem;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+
+        /* ============================================================
+           CREDITS PAGE
+           ============================================================ */
         .credit-box {
             text-align: center;
             padding: 2rem 1.5rem;
         }
 
-        .avatar {
+        .credit-box .avatar {
             width: 90px;
             height: 90px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid var(--accent-green);
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
         }
 
         .credit-box h2 {
             font-weight: 700;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             color: var(--text-primary);
+            letter-spacing: -0.3px;
         }
 
-        .role {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 0.8rem;
-        }
-
-        .credit-box a {
+        .credit-box .role {
             color: var(--accent-green);
-            text-decoration: none;
+            font-size: 0.8rem;
             font-weight: 500;
-            border-bottom: 1px solid transparent;
-            transition: border-color 0.2s;
+            margin-bottom: 0.5rem;
         }
 
-        .credit-box a:hover {
-            border-bottom-color: var(--accent-green);
+        .credit-box .bio {
+            color: var(--text-secondary);
+            max-width: 420px;
+            margin: 0 auto;
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+
+        .credit-box .bio strong {
+            color: var(--text-primary);
         }
 
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 1.5rem;
+            gap: 0.6rem;
             margin-top: 1.5rem;
+            flex-wrap: wrap;
         }
 
         .social-links a {
             border: 1px solid var(--border-color);
             padding: 0.3rem 1.2rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            transition: border-color 0.2s, background 0.2s;
+            border-radius: 16px;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all var(--transition);
         }
 
         .social-links a:hover {
             border-color: var(--accent-green);
-            background: rgba(0, 168, 107, 0.05);
+            color: var(--text-primary);
+            background: rgba(0, 168, 107, 0.04);
         }
 
-        /* ---------- FOOTER ---------- */
+        /* ============================================================
+           FOOTER
+           ============================================================ */
         footer {
             text-align: center;
-            padding: 2.5rem 0 2rem;
+            padding: 1.8rem 0 1.5rem;
             color: var(--text-muted);
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             border-top: 1px solid var(--border-color);
             font-weight: 400;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.2px;
+            margin-top: 0.5rem;
         }
 
-        /* ---------- RESPONSIVE ---------- */
-        @media (max-width: 700px) {
-            .navbar { padding: 0.6rem 1.2rem; flex-wrap: wrap; gap: 0.4rem; }
-            .nav-links a { margin-left: 1rem; font-size: 0.8rem; }
-            .hero h1 { font-size: 2.8rem; }
-            .grid-2 { grid-template-columns: 1fr; }
-            .script-box { flex-wrap: wrap; }
-            .download-card h1 { font-size: 2rem; }
-            .download-btn { font-size: 1rem; padding: 0.7rem 1.8rem; }
+        footer span {
+            color: var(--accent-green);
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 1rem;
+                flex-wrap: wrap;
+                height: auto;
+                min-height: 54px;
+            }
+
+            .logo {
+                font-size: 1.1rem;
+            }
+
+            .logo img {
+                width: 26px;
+                height: 26px;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+                gap: 0.1rem;
+                padding-top: 0.3rem;
+            }
+
+            .nav-links a {
+                font-size: 0.72rem;
+                padding: 0.25rem 0.6rem;
+            }
+
+            .page {
+                padding: 5rem 0.8rem 2rem;
+            }
+
+            .hero h1 {
+                font-size: 2.6rem;
+            }
+
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .download-card {
+                padding: 2rem 1.2rem;
+            }
+
+            .download-card h1 {
+                font-size: 2rem;
+            }
+
+            .script-box {
+                flex-wrap: wrap;
+                padding: 0.4rem;
+            }
+
+            .script-box textarea {
+                font-size: 0.7rem;
+                white-space: pre-wrap;
+                word-break: break-all;
+                min-height: 40px;
+            }
+
+            .copy-btn {
+                width: 100%;
+                padding: 0.4rem;
+            }
+
+            .credit-box .avatar {
+                width: 72px;
+                height: 72px;
+            }
+
+            .catalog-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 0.8rem;
+            }
+
+            .game-card img {
+                max-width: 80px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .nav-links a {
+                font-size: 0.65rem;
+                padding: 0.2rem 0.4rem;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            .catalog-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.6rem;
+            }
+
+            .game-card {
+                padding: 0.8rem 0.5rem;
+            }
+
+            .game-card img {
+                max-width: 60px;
+            }
+
+            .game-card .game-name {
+                font-size: 0.75rem;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR -->
+    <!-- ============================================================
+    NAVBAR
+    ============================================================ -->
     <nav class="navbar">
-        <div class="logo">
+        <div class="logo" onclick="showPage('home')">
             <img src="https://tr.rbxcdn.com/180DAY-85562c0efb45221628a4c872e35cf587/150/150/Decal/Webp/noFilter" alt="Happy Hub Icon" />
             Happy<span>Hub</span>
         </div>
@@ -444,18 +743,56 @@
         </div>
     </nav>
 
-    <!-- PAGE: HOME -->
+    <!-- ============================================================
+    PAGE: HOME
+    ============================================================ -->
     <div id="home" class="page active">
         <div class="hero">
-            <h1 id="typingText">HELLO BXTCH!</h1>
+            <h1 id="typingText">HELLO BXTCH</h1>
             <p>Free · Keyless · Open Source<br />Load it, execute it.</p>
             <span class="badge">MM2 Script Hub</span>
         </div>
 
-        <div class="grid-2">
+        <!-- ============================================================
+        GAME CATALOG
+        ============================================================ -->
+        <div class="page-header" style="border-bottom: none; margin-bottom: 0.5rem; padding-bottom: 0;">
+            <h1 style="font-size: 1.4rem;">Supported Games</h1>
+            <p style="font-size: 0.85rem;">Scripts available for these Roblox games</p>
+        </div>
+
+        <div class="catalog-grid">
+            <!-- MM2 - Working -->
+            <div class="game-card">
+                <img src="https://static.wikia.nocookie.net/murdermystery/images/3/30/MM2logo.png/revision/latest?cb=20141230012338" alt="Murder Mystery 2" />
+                <div class="game-name">Murder Mystery 2</div>
+                <span class="game-status working">Working</span>
+            </div>
+
+            <!-- Prison Life - Soon -->
+            <div class="game-card">
+                <img src="https://static.wikia.nocookie.net/roblox/images/0/0c/Prison_Life_Icon.png/revision/latest?cb=20260130054653" alt="Prison Life" />
+                <div class="game-name">Prison Life</div>
+                <span class="game-status soon">Soon</span>
+                <div class="soon-overlay">SOON</div>
+            </div>
+
+            <!-- Natural Disaster Survival - Soon -->
+            <div class="game-card">
+                <img src="https://static.wikia.nocookie.net/roblox/images/0/01/Ndsnds.png/revision/latest?cb=20190616012113&path-prefix=es" alt="Natural Disaster Survival" />
+                <div class="game-name">Natural Disaster</div>
+                <span class="game-status soon">Soon</span>
+                <div class="soon-overlay">SOON</div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+        INFO CARDS
+        ============================================================ -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem;">
             <div class="card">
-                <h2>What is this shit?</h2>
-                <p>HHB-MM2 is a common script hub for <span class="highlight">Murder Mystery 2</span>. No keys, no bullshit. Full open source, inspectable, and built for performance.</p>
+                <h2>What is this?</h2>
+                <p><span class="highlight">HHB-MM2</span> is a common script hub for <span class="highlight">Murder Mystery 2</span>. No keys, no bullshit. Full open source, inspectable, and built for performance.</p>
             </div>
             <div class="card">
                 <h2>How to use?</h2>
@@ -464,10 +801,15 @@
         </div>
     </div>
 
-    <!-- PAGE: SCRIPT -->
+    <!-- ============================================================
+    PAGE: SCRIPT
+    ============================================================ -->
     <div id="script" class="page">
-        <h1 style="font-weight:700; font-size:2.4rem; color:var(--text-primary); letter-spacing:-0.5px;">Script Hub</h1>
-        <p style="color:var(--text-secondary); margin-top:0.2rem;">Copy the raw code and execute in your Roblox executor.</p>
+        <div class="page-header">
+            <h1>Script Hub</h1>
+            <p>Copy the raw code and execute in your Roblox executor.</p>
+            <span class="tag">One-liner</span>
+        </div>
 
         <div class="script-box">
             <textarea id="scriptText" readonly>loadstring(game:HttpGet("https://raw.githubusercontent.com/overthcode2011-stack/HHB-MM2-/refs/heads/main/main.lua"))()</textarea>
@@ -475,34 +817,55 @@
         </div>
 
         <div class="steps">
-            <p style="color:var(--text-primary); font-weight:600; margin-bottom:0.6rem;">Execution steps</p>
+            <div class="steps-title">Execution steps</div>
             <ol>
                 <li>Copy the script above.</li>
                 <li>Open your executor (Xeno, Synapse, etc.).</li>
                 <li>Paste and execute.</li>
             </ol>
         </div>
-        <p style="color:var(--text-muted); font-size:0.8rem; margin-top:1rem;">Always use at your own risk. 70% UNC in MM2</p>
-    </div>
 
-    <!-- PAGE: DOWNLOAD -->
-    <div id="download" class="page">
-        <div class="download-card">
-            <h1>Get <span>Xeno</span></h1>
-            <p style="color:var(--text-secondary); margin-top:0.4rem;">The best free executor for the hub</p>
-            <a class="download-btn" href="https://www.xeno.now/" target="_blank" rel="noopener noreferrer">Visit xeno.now</a>
-            <p style="margin-top:2rem; font-size:0.7rem; color:var(--text-muted);">Official partner · redirects to xeno.now</p>
+        <div class="script-meta">
+            <span><strong>70% UNC</strong> in MM2</span>
+            <span><strong>Keyless</strong> &amp; free</span>
+            <span>Auto-updates from GitHub</span>
         </div>
     </div>
 
-    <!-- PAGE: CREDITS -->
+    <!-- ============================================================
+    PAGE: DOWNLOAD
+    ============================================================ -->
+    <div id="download" class="page">
+        <div class="page-header">
+            <h1>Download</h1>
+            <p>Get the best free executor for the hub</p>
+        </div>
+
+        <div class="download-card">
+            <h1>Get <span>Xeno</span></h1>
+            <p class="subtitle">The best free executor for the hub</p>
+            <a class="download-btn" href="https://www.xeno.now/" target="_blank" rel="noopener noreferrer">
+                Visit xeno.now
+            </a>
+            <p class="footer-note">Official partner · redirects to xeno.now</p>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    PAGE: CREDITS
+    ============================================================ -->
     <div id="credits" class="page">
+        <div class="page-header">
+            <h1>Credits</h1>
+            <p>Meet the creator behind Happy Hub</p>
+        </div>
+
         <div class="card credit-box">
             <img class="avatar" src="https://avatars.githubusercontent.com/u/284167512?s=400&u=e81860e2a4085885840ca3a9c17177d795c61630&v=4" alt="author avatar" />
             <h2>Replicated Man</h2>
-            <p class="role">Creator & Developer</p>
-            <p style="color:var(--text-secondary); max-width:450px; margin:0 auto;">
-                Built this hub for the community. <strong style="color:var(--text-primary);">Free forever.</strong><br />
+            <p class="role">Creator &amp; Developer</p>
+            <p class="bio">
+                Built this hub for the community. <strong>Free forever.</strong><br />
                 No keys, no paywalls. DM for donations or collab.
             </p>
             <div class="social-links">
@@ -512,9 +875,16 @@
         </div>
     </div>
 
-    <footer>2026 Happy Hub project · open source & keyless</footer>
+    <!-- ============================================================
+    FOOTER
+    ============================================================ -->
+    <footer>
+        2026 · <span>Happy Hub</span> · open source &amp; keyless
+    </footer>
 
-    <!-- SCRIPTS -->
+    <!-- ============================================================
+    SCRIPTS
+    ============================================================ -->
     <script>
         // ---- PAGE SWITCH ----
         const navMap = {
@@ -543,7 +913,7 @@
             if (charIndex <= fullText.length) {
                 typingEl.textContent = fullText.slice(0, charIndex);
                 charIndex++;
-                setTimeout(typeWriter, 85);
+                setTimeout(typeWriter, 75);
             }
         }
         typeWriter();
