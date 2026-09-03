@@ -1,941 +1,1326 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Happy Hub</title>
-
-    <link rel="icon" type="image/png" href="https://tr.rbxcdn.com/180DAY-85562c0efb45221628a4c872e35cf587/150/150/Decal/Webp/noFilter" />
-    <link rel="shortcut icon" type="image/png" href="https://tr.rbxcdn.com/180DAY-85562c0efb45221628a4c872e35cf587/150/150/Decal/Webp/noFilter" />
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
-
-    <style>
-        /* ============================================================
-           ROOT VARIABLES
-           ============================================================ */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg-primary: #0a0a0a;
-            --bg-secondary: #111111;
-            --bg-card: #161616;
-            --bg-card-hover: #1c1c1c;
-            --bg-input: #1e1e1e;
-            --text-primary: #f0f0f0;
-            --text-secondary: #a8a8a8;
-            --text-muted: #5e5e5e;
-            --accent-green: #00a86b;
-            --accent-green-light: #00cc84;
-            --accent-green-dark: #008a56;
-            --border-color: #282828;
-            --border-hover: #3a3a3a;
-            --font-main: 'Inter', 'BuilderSans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            --radius: 12px;
-            --radius-sm: 6px;
-            --transition: 0.2s ease;
-        }
-
-        body {
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            font-family: var(--font-main);
-            min-height: 100vh;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
-            background-size: 48px 48px;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: var(--bg-secondary); }
-        ::-webkit-scrollbar-thumb { background: var(--accent-green); border-radius: 4px; }
-
-        /* ============================================================
-           NAVBAR
-           ============================================================ */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2.5rem;
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-color);
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            height: 60px;
-        }
-
-        .logo {
-            font-weight: 700;
-            font-size: 1.3rem;
-            letter-spacing: -0.3px;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-        }
-
-        .logo img {
-            width: 30px;
-            height: 30px;
-            border-radius: 4px;
-            display: block;
-        }
-
-        .logo span {
-            color: var(--accent-green);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 0.1rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            font-size: 0.82rem;
-            padding: 0.4rem 1rem;
-            color: var(--text-secondary);
-            text-decoration: none;
-            cursor: pointer;
-            transition: all var(--transition);
-            font-weight: 500;
-            border-radius: var(--radius-sm);
-        }
-
-        .nav-links a:hover {
-            color: var(--text-primary);
-            background: rgba(255,255,255,0.04);
-        }
-
-        .nav-links a.active {
-            color: var(--text-primary);
-            background: rgba(0, 168, 107, 0.08);
-        }
-
-        /* ============================================================
-           PAGE CONTAINER
-           ============================================================ */
-        .page {
-            display: none;
-            padding: 5.5rem 2rem 3rem;
-            max-width: 860px;
-            margin: 0 auto;
-            min-height: calc(100vh - 60px);
-        }
-
-        .page.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(12px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ============================================================
-           PAGE HEADERS
-           ============================================================ */
-        .page-header {
-            margin-bottom: 2rem;
-            padding-bottom: 1.2rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .page-header h1 {
-            font-weight: 700;
-            font-size: 2.2rem;
-            letter-spacing: -0.5px;
-            color: var(--text-primary);
-        }
-
-        .page-header p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            margin-top: 0.2rem;
-        }
-
-        .page-header .tag {
-            display: inline-block;
-            background: rgba(0, 168, 107, 0.06);
-            border: 1px solid rgba(0, 168, 107, 0.12);
-            color: var(--accent-green);
-            padding: 0.15rem 1rem;
-            border-radius: 14px;
-            font-size: 0.7rem;
-            font-weight: 500;
-            margin-top: 0.4rem;
-        }
-
-        /* ============================================================
-           CARDS
-           ============================================================ */
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            padding: 1.5rem 1.8rem;
-            transition: border-color var(--transition), background var(--transition);
-        }
-
-        .card:hover {
-            border-color: var(--border-hover);
-            background: var(--bg-card-hover);
-        }
-
-        .card h2 {
-            font-weight: 600;
-            font-size: 1.05rem;
-            color: var(--text-primary);
-            margin-bottom: 0.3rem;
-            letter-spacing: -0.2px;
-        }
-
-        .card p {
-            color: var(--text-secondary);
-            line-height: 1.7;
-            font-size: 0.92rem;
-        }
-
-        .card .highlight {
-            color: var(--accent-green);
-            font-weight: 600;
-        }
-
-        /* ============================================================
-           HOME PAGE
-           ============================================================ */
-        .hero {
-            text-align: center;
-            padding: 2.5rem 0 2rem;
-        }
-
-        .hero h1 {
-            font-weight: 800;
-            font-size: 3.8rem;
-            letter-spacing: -1.5px;
-            background: linear-gradient(135deg, #ffffff 45%, var(--accent-green-light));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero p {
-            color: var(--text-secondary);
-            max-width: 480px;
-            margin: 0.8rem auto 0.2rem;
-            font-size: 1.05rem;
-            line-height: 1.6;
-        }
-
-        .hero .badge {
-            display: inline-block;
-            background: rgba(0, 168, 107, 0.06);
-            border: 1px solid rgba(0, 168, 107, 0.12);
-            color: var(--accent-green);
-            padding: 0.2rem 1.4rem;
-            border-radius: 16px;
-            font-size: 0.7rem;
-            font-weight: 500;
-            margin-top: 0.6rem;
-        }
-
-        /* ============================================================
-           GAME CATALOG
-           ============================================================ */
-        .catalog-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1.2rem;
-            margin-top: 1.2rem;
-        }
-
-        .game-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            padding: 1.2rem 1rem;
-            text-align: center;
-            transition: border-color var(--transition), background var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .game-card:hover {
-            border-color: var(--border-hover);
-            background: var(--bg-card-hover);
-        }
-
-        .game-card img {
-            width: 100%;
-            max-width: 120px;
-            height: auto;
-            aspect-ratio: 1/1;
-            object-fit: contain;
-            border-radius: 8px;
-            margin-bottom: 0.6rem;
-            background: var(--bg-secondary);
-            padding: 0.3rem;
-        }
-
-        .game-card .game-name {
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--text-primary);
-            letter-spacing: -0.2px;
-        }
-
-        .game-card .game-status {
-            font-size: 0.7rem;
-            font-weight: 500;
-            margin-top: 0.3rem;
-            display: inline-block;
-            padding: 0.1rem 0.8rem;
-            border-radius: 12px;
-        }
-
-        .game-status.working {
-            color: var(--accent-green);
-            background: rgba(0, 168, 107, 0.08);
-            border: 1px solid rgba(0, 168, 107, 0.1);
-        }
-
-        .game-status.soon {
-            color: #f0a030;
-            background: rgba(240, 160, 48, 0.08);
-            border: 1px solid rgba(240, 160, 48, 0.15);
-        }
-
-        .game-card .soon-overlay {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background: #f0a030;
-            color: #0a0a0a;
-            font-weight: 700;
-            font-size: 0.6rem;
-            padding: 0.15rem 0.6rem;
-            border-radius: 0 var(--radius) 0 8px;
-            letter-spacing: 0.5px;
-        }
-
-        /* ============================================================
-           SCRIPT PAGE
-           ============================================================ */
-        .script-box {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            padding: 0.4rem 0.4rem 0.4rem 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            margin: 1.2rem 0;
-            transition: border-color var(--transition);
-        }
-
-        .script-box:focus-within {
-            border-color: var(--accent-green);
-        }
-
-        .script-box textarea {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: var(--text-primary);
-            font-family: 'Inter', 'Menlo', monospace;
-            font-size: 0.78rem;
-            resize: none;
-            outline: none;
-            white-space: nowrap;
-            overflow-x: auto;
-            padding: 0.4rem 0;
-            line-height: 1.5;
-            min-height: 34px;
-        }
-
-        .script-box textarea::-webkit-scrollbar {
-            height: 3px;
-        }
-
-        .copy-btn {
-            background: var(--accent-green);
-            color: #fff;
-            border: none;
-            padding: 0.45rem 1.4rem;
-            font-weight: 600;
-            font-size: 0.75rem;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            transition: background var(--transition);
-            font-family: var(--font-main);
-            letter-spacing: 0.2px;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-
-        .copy-btn:hover {
-            background: var(--accent-green-light);
-        }
-
-        .copy-btn:active {
-            transform: scale(0.97);
-        }
-
-        .copy-btn.copied {
-            background: #28a745;
-        }
-
-        .steps {
-            background: var(--bg-secondary);
-            border-left: 2px solid var(--accent-green);
-            padding: 1rem 1.5rem;
-            border-radius: var(--radius);
-            margin: 1.2rem 0;
-        }
-
-        .steps .steps-title {
-            color: var(--text-primary);
-            font-weight: 600;
-            font-size: 0.85rem;
-            margin-bottom: 0.4rem;
-        }
-
-        .steps ol {
-            list-style: none;
-            counter-reset: step;
-            color: var(--text-secondary);
-            font-size: 0.88rem;
-        }
-
-        .steps li {
-            counter-increment: step;
-            margin-bottom: 0.3rem;
-            display: flex;
-            align-items: baseline;
-        }
-
-        .steps li::before {
-            content: counter(step);
-            background: var(--accent-green);
-            color: #fff;
-            font-weight: 700;
-            font-size: 0.6rem;
-            width: 20px;
-            height: 20px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            margin-right: 0.7rem;
-            flex-shrink: 0;
-        }
-
-        .script-meta {
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            margin-top: 0.8rem;
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .script-meta strong {
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        /* ============================================================
-           DOWNLOAD PAGE
-           ============================================================ */
-        .download-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            padding: 3rem 2rem;
-            text-align: center;
-            transition: border-color var(--transition), background var(--transition);
-        }
-
-        .download-card:hover {
-            border-color: var(--border-hover);
-            background: var(--bg-card-hover);
-        }
-
-        .download-card h1 {
-            font-weight: 700;
-            font-size: 2.6rem;
-            color: var(--text-primary);
-            letter-spacing: -0.5px;
-        }
-
-        .download-card h1 span {
-            color: var(--accent-green);
-        }
-
-        .download-card .subtitle {
-            color: var(--text-secondary);
-            margin-top: 0.2rem;
-            font-size: 0.95rem;
-        }
-
-        .download-btn {
-            display: inline-block;
-            background: var(--accent-green);
-            color: #fff;
-            padding: 0.8rem 2.8rem;
-            font-weight: 600;
-            font-size: 1rem;
-            text-decoration: none;
-            border-radius: 40px;
-            margin-top: 1.5rem;
-            transition: background var(--transition);
-            font-family: var(--font-main);
-        }
-
-        .download-btn:hover {
-            background: var(--accent-green-light);
-        }
-
-        .download-card .footer-note {
-            margin-top: 1.8rem;
-            font-size: 0.65rem;
-            color: var(--text-muted);
-        }
-
-        /* ============================================================
-           CREDITS PAGE
-           ============================================================ */
-        .credit-box {
-            text-align: center;
-            padding: 2rem 1.5rem;
-        }
-
-        .credit-box .avatar {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--accent-green);
-            margin-bottom: 0.8rem;
-        }
-
-        .credit-box h2 {
-            font-weight: 700;
-            font-size: 1.6rem;
-            color: var(--text-primary);
-            letter-spacing: -0.3px;
-        }
-
-        .credit-box .role {
-            color: var(--accent-green);
-            font-size: 0.8rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-        }
-
-        .credit-box .bio {
-            color: var(--text-secondary);
-            max-width: 420px;
-            margin: 0 auto;
-            font-size: 0.92rem;
-            line-height: 1.6;
-        }
-
-        .credit-box .bio strong {
-            color: var(--text-primary);
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 0.6rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .social-links a {
-            border: 1px solid var(--border-color);
-            padding: 0.3rem 1.2rem;
-            border-radius: 16px;
-            font-size: 0.78rem;
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: all var(--transition);
-        }
-
-        .social-links a:hover {
-            border-color: var(--accent-green);
-            color: var(--text-primary);
-            background: rgba(0, 168, 107, 0.04);
-        }
-
-        /* ============================================================
-           FOOTER
-           ============================================================ */
-        footer {
-            text-align: center;
-            padding: 1.8rem 0 1.5rem;
-            color: var(--text-muted);
-            font-size: 0.7rem;
-            border-top: 1px solid var(--border-color);
-            font-weight: 400;
-            letter-spacing: 0.2px;
-            margin-top: 0.5rem;
-        }
-
-        footer span {
-            color: var(--accent-green);
-        }
-
-        /* ============================================================
-           RESPONSIVE
-           ============================================================ */
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 0 1rem;
-                flex-wrap: wrap;
-                height: auto;
-                min-height: 54px;
-            }
-
-            .logo {
-                font-size: 1.1rem;
-            }
-
-            .logo img {
-                width: 26px;
-                height: 26px;
-            }
-
-            .nav-links {
-                width: 100%;
-                justify-content: center;
-                gap: 0.1rem;
-                padding-top: 0.3rem;
-            }
-
-            .nav-links a {
-                font-size: 0.72rem;
-                padding: 0.25rem 0.6rem;
-            }
-
-            .page {
-                padding: 5rem 0.8rem 2rem;
-            }
-
-            .hero h1 {
-                font-size: 2.6rem;
-            }
-
-            .page-header h1 {
-                font-size: 1.8rem;
-            }
-
-            .download-card {
-                padding: 2rem 1.2rem;
-            }
-
-            .download-card h1 {
-                font-size: 2rem;
-            }
-
-            .script-box {
-                flex-wrap: wrap;
-                padding: 0.4rem;
-            }
-
-            .script-box textarea {
-                font-size: 0.7rem;
-                white-space: pre-wrap;
-                word-break: break-all;
-                min-height: 40px;
-            }
-
-            .copy-btn {
-                width: 100%;
-                padding: 0.4rem;
-            }
-
-            .credit-box .avatar {
-                width: 72px;
-                height: 72px;
-            }
-
-            .catalog-grid {
-                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-                gap: 0.8rem;
-            }
-
-            .game-card img {
-                max-width: 80px;
-            }
-        }
-
-        @media (max-width: 420px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .nav-links a {
-                font-size: 0.65rem;
-                padding: 0.2rem 0.4rem;
-            }
-
-            .card {
-                padding: 1rem;
-            }
-
-            .catalog-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 0.6rem;
-            }
-
-            .game-card {
-                padding: 0.8rem 0.5rem;
-            }
-
-            .game-card img {
-                max-width: 60px;
-            }
-
-            .game-card .game-name {
-                font-size: 0.75rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Hub</title>
+
+  <link rel="icon" type="image/png" href="https://tr.rbxcdn.com/180DAY-85562c0efb45221628a4c872e35cf587/150/150/Decal/Webp/noFilter" />
+  <link rel="shortcut icon" type="image/png" href="https://tr.rbxcdn.com/180DAY-85562c0efb45221628a4c872e35cf587/150/150/Decal/Webp/noFilter" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #111111;
+      --bg-card: #161616;
+      --bg-card-hover: #1c1c1c;
+      --bg-input: #1e1e1e;
+      --text-primary: #f0f0f0;
+      --text-secondary: #a8a8a8;
+      --text-muted: #5e5e5e;
+      --accent-green: #00a86b;
+      --accent-green-light: #00cc84;
+      --accent-green-dark: #008a56;
+      --accent-orange: #e68a2e;
+      --accent-blue: #3b82f6;
+      --border-color: #282828;
+      --border-hover: #3a3a3a;
+      --font-main: 'Inter', 'BuilderSans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --radius: 12px;
+      --radius-sm: 6px;
+      --transition: 0.2s ease;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---- BACKGROUND EFFECT ---- */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 50%, rgba(0, 168, 107, 0.04) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(0, 168, 107, 0.03) 0%, transparent 40%),
+        radial-gradient(circle at 50% 80%, rgba(0, 168, 107, 0.025) 0%, transparent 45%),
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+      z-index: -1;
+      pointer-events: none;
+      animation: bgPulse 8s ease-in-out infinite;
+    }
+
+    @keyframes bgPulse {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; }
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 60%, rgba(0, 168, 107, 0.06) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 40%, rgba(0, 168, 107, 0.04) 0%, transparent 50%);
+      z-index: -1;
+      pointer-events: none;
+      animation: glowMove 12s ease-in-out infinite alternate;
+    }
+
+    @keyframes glowMove {
+      0% { transform: scale(1) rotate(0deg); }
+      100% { transform: scale(1.1) rotate(3deg); }
+    }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+    ::-webkit-scrollbar-thumb { background: var(--accent-green); border-radius: 4px; }
+
+    /* ---- NAVBAR ---- */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2.5rem;
+      background: rgba(10, 10, 10, 0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      height: 60px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.3rem;
+      letter-spacing: -0.3px;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+
+    .logo img {
+      width: 30px;
+      height: 30px;
+      border-radius: 4px;
+      display: block;
+    }
+
+    .logo span {
+      color: var(--accent-green);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      font-size: 0.82rem;
+      padding: 0.4rem 1rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-weight: 500;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .nav-links a i {
+      font-size: 0.85rem;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-primary);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .nav-links a.active {
+      color: var(--text-primary);
+      background: rgba(0, 168, 107, 0.08);
+    }
+
+    /* ---- DROPDOWN ---- */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown > a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background: var(--bg-card);
+      min-width: 220px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 0.3rem 0;
+      margin-top: 0.2rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      z-index: 10;
+    }
+
+    .dropdown-content a {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.5rem 1.2rem;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: all var(--transition);
+      border-left: 2px solid transparent;
+    }
+
+    .dropdown-content a img {
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      object-fit: contain;
+      background: var(--bg-secondary);
+      padding: 2px;
+    }
+
+    .dropdown-content a:hover {
+      background: rgba(255,255,255,0.03);
+      color: var(--text-primary);
+      border-left-color: var(--accent-green);
+    }
+
+    .dropdown-content a .status-badge {
+      margin-left: auto;
+      font-size: 0.6rem;
+      background: rgba(0,168,107,0.1);
+      color: var(--accent-green);
+      padding: 0.05rem 0.6rem;
+      border-radius: 12px;
+    }
+
+    .dropdown-content a .status-badge.soon {
+      color: var(--accent-orange);
+      background: rgba(230, 138, 46, 0.12);
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    /* ---- PAGES ---- */
+    .page {
+      display: none;
+      padding: 5.5rem 2rem 3rem;
+      max-width: 860px;
+      margin: 0 auto;
+      min-height: calc(100vh - 60px);
+      animation: pageFadeUp 0.5s ease;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes pageFadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ---- HEADERS ---- */
+    .page-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1.2rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .page-header h1 {
+      font-weight: 700;
+      font-size: 2.2rem;
+      letter-spacing: -0.5px;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .page-header h1 i {
+      color: var(--accent-green);
+      font-size: 1.8rem;
+    }
+
+    .page-header p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-top: 0.2rem;
+    }
+
+    .page-header .tag {
+      display: inline-block;
+      background: rgba(0, 168, 107, 0.06);
+      border: 1px solid rgba(0, 168, 107, 0.12);
+      color: var(--accent-green);
+      padding: 0.15rem 1rem;
+      border-radius: 14px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      margin-top: 0.4rem;
+    }
+
+    /* ---- CARDS ---- */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.8rem;
+      transition: border-color var(--transition), background var(--transition), transform 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+    }
+
+    .card h2 {
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      margin-bottom: 0.3rem;
+      letter-spacing: -0.2px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card h2 i {
+      color: var(--accent-green);
+      font-size: 1.1rem;
+    }
+
+    .card p {
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-size: 0.92rem;
+    }
+
+    .card .highlight {
+      color: var(--accent-green);
+      font-weight: 600;
+    }
+
+    /* ---- HOME HERO ---- */
+    .hero {
+      text-align: center;
+      padding: 2rem 0 1.6rem;
+    }
+
+    .hero h1 {
+      font-weight: 800;
+      font-size: 3.8rem;
+      letter-spacing: -1.5px;
+      background: linear-gradient(135deg, #ffffff 45%, var(--accent-green-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      color: var(--text-secondary);
+      max-width: 480px;
+      margin: 0.8rem auto 0.2rem;
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    .hero .badge {
+      display: inline-block;
+      background: rgba(0, 168, 107, 0.06);
+      border: 1px solid rgba(0, 168, 107, 0.12);
+      color: var(--accent-green);
+      padding: 0.2rem 1.4rem;
+      border-radius: 16px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      margin-top: 0.6rem;
+    }
+
+    /* ---- INFO BANNER ---- */
+    .info-banner {
+      background: linear-gradient(135deg, rgba(0, 168, 107, 0.08), rgba(0, 168, 107, 0.02));
+      border: 1px solid rgba(0, 168, 107, 0.2);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.8rem;
+      margin: 1.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+
+    .info-banner .info-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    .info-banner .info-item i {
+      color: var(--accent-green);
+      font-size: 1rem;
+    }
+
+    .info-banner .info-item strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .info-banner .info-item .version-tag {
+      background: var(--accent-green);
+      color: #0a0a0a;
+      padding: 0.05rem 0.6rem;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.7rem;
+    }
+
+    /* ---- CATALOG ---- */
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.2rem;
+      margin-top: 1.2rem;
+    }
+
+    .game-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 1.2rem 1rem;
+      text-align: center;
+      transition: border-color var(--transition), background var(--transition), transform 0.2s ease;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .game-card:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-card-hover);
+      transform: translateY(-4px);
+    }
+
+    .game-card .game-icon {
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      margin-bottom: 0.2rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      transition: border-color var(--transition);
+      overflow: hidden;
+      padding: 4px;
+    }
+
+    .game-card .game-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+
+    .game-card:hover .game-icon {
+      border-color: var(--border-hover);
+    }
+
+    .game-card .game-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      letter-spacing: -0.2px;
+    }
+
+    .game-card .game-status {
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 0.1rem 0.8rem;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .game-status.working {
+      color: var(--accent-green);
+      background: rgba(0, 168, 107, 0.08);
+      border: 1px solid rgba(0, 168, 107, 0.1);
+    }
+
+    .game-status.soon {
+      color: var(--accent-orange);
+      background: rgba(230, 138, 46, 0.08);
+      border: 1px solid rgba(230, 138, 46, 0.15);
+    }
+
+    .game-card .soon-overlay {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: var(--accent-orange);
+      color: #0a0a0a;
+      font-weight: 700;
+      font-size: 0.6rem;
+      padding: 0.15rem 0.6rem;
+      border-radius: 0 var(--radius) 0 8px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ---- SCRIPT PAGE (tabs) ---- */
+    .tabs {
+      display: flex;
+      gap: 0.2rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      color: var(--text-secondary);
+      font-family: var(--font-main);
+      font-weight: 500;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all var(--transition);
+      border-bottom: 2px solid transparent;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .tab-btn img {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      object-fit: contain;
+      background: var(--bg-secondary);
+      padding: 2px;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-primary);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .tab-btn.active {
+      color: var(--accent-green);
+      border-bottom-color: var(--accent-green);
+      background: rgba(0, 168, 107, 0.04);
+    }
+
+    .tab-content {
+      display: none;
+      animation: pageFadeUp 0.3s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .tab-content .script-box {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 0.4rem 0.4rem 0.4rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin: 1rem 0;
+      transition: border-color var(--transition);
+    }
+
+    .tab-content .script-box:focus-within {
+      border-color: var(--accent-green);
+    }
+
+    .tab-content .script-box textarea {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      font-family: 'Inter', 'Menlo', monospace;
+      font-size: 0.78rem;
+      resize: none;
+      outline: none;
+      white-space: nowrap;
+      overflow-x: auto;
+      padding: 0.4rem 0;
+      line-height: 1.5;
+      min-height: 34px;
+    }
+
+    .tab-content .script-box textarea::-webkit-scrollbar {
+      height: 3px;
+    }
+
+    .copy-btn {
+      background: var(--accent-green);
+      color: #fff;
+      border: none;
+      padding: 0.45rem 1.4rem;
+      font-weight: 600;
+      font-size: 0.75rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background var(--transition);
+      font-family: var(--font-main);
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .copy-btn i {
+      font-size: 0.8rem;
+    }
+
+    .copy-btn:hover {
+      background: var(--accent-green-light);
+    }
+    .copy-btn:active { transform: scale(0.97); }
+    .copy-btn.copied { background: #28a745; }
+
+    .copy-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .tab-content .status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 0.2rem 0.8rem;
+      border-radius: 14px;
+    }
+
+    .status-indicator.working {
+      color: var(--accent-green);
+      background: rgba(0, 168, 107, 0.06);
+      border: 1px solid rgba(0, 168, 107, 0.1);
+    }
+
+    .status-indicator.soon {
+      color: var(--accent-orange);
+      background: rgba(230, 138, 46, 0.06);
+      border: 1px solid rgba(230, 138, 46, 0.1);
+    }
+
+    .status-indicator i {
+      font-size: 0.6rem;
+    }
+
+    .script-meta {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      margin-top: 0.8rem;
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .script-meta strong {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .script-meta i {
+      margin-right: 0.3rem;
+      color: var(--text-muted);
+    }
+
+    /* ---- DOWNLOAD ---- */
+    .download-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 3rem 2rem;
+      text-align: center;
+      transition: border-color var(--transition), background var(--transition), transform 0.2s ease;
+    }
+
+    .download-card:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+    }
+
+    .download-card h1 {
+      font-weight: 700;
+      font-size: 2.6rem;
+      color: var(--text-primary);
+      letter-spacing: -0.5px;
+    }
+    .download-card h1 span { color: var(--accent-green); }
+    .download-card .subtitle {
+      color: var(--text-secondary);
+      margin-top: 0.2rem;
+      font-size: 0.95rem;
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--accent-green);
+      color: #fff;
+      padding: 0.8rem 2.8rem;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      border-radius: 40px;
+      margin-top: 1.5rem;
+      transition: background var(--transition), transform 0.2s ease;
+      font-family: var(--font-main);
+    }
+
+    .download-btn:hover {
+      background: var(--accent-green-light);
+      transform: scale(1.02);
+    }
+    .download-card .footer-note {
+      margin-top: 1.8rem;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+    }
+
+    /* ---- CREDITS ---- */
+    .credit-box {
+      text-align: center;
+      padding: 2rem 1.5rem;
+    }
+
+    .credit-box .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent-green);
+      margin-bottom: 0.8rem;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .credit-box h2 {
+      font-weight: 700;
+      font-size: 1.6rem;
+      color: var(--text-primary);
+      letter-spacing: -0.3px;
+      text-align: center;
+      display: block; /* Ensures block-level centering */
+      width: 100%; /* Takes full width */
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .credit-box .role {
+      color: var(--accent-green);
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      text-align: center;
+      display: block;
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .credit-box .bio {
+      color: var(--text-secondary);
+      max-width: 420px;
+      margin: 0 auto;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      text-align: center;
+      display: block;
+      width: 100%;
+    }
+
+    .credit-box .bio strong {
+      color: var(--text-primary);
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 0.6rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .social-links a {
+      border: 1px solid var(--border-color);
+      padding: 0.3rem 1.2rem;
+      border-radius: 16px;
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: all var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .social-links a i {
+      font-size: 0.85rem;
+    }
+
+    .social-links a:hover {
+      border-color: var(--accent-green);
+      color: var(--text-primary);
+      background: rgba(0, 168, 107, 0.04);
+    }
+
+    /* ---- XENO BADGE ---- */
+    .xeno-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(0, 168, 107, 0.08);
+      border: 1px solid rgba(0, 168, 107, 0.2);
+      color: var(--accent-green-light);
+      padding: 0.25rem 1rem;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      backdrop-filter: blur(4px);
+    }
+
+    .xeno-badge i {
+      font-size: 0.8rem;
+    }
+
+    /* ---- SCROLL TOP BUTTON ---- */
+    .scroll-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--accent-green);
+      color: #fff;
+      width: 44px;
+      height: 44px;
+      border: none;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all var(--transition);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      box-shadow: 0 4px 16px rgba(0, 168, 107, 0.3);
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .scroll-top.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .scroll-top:hover {
+      background: var(--accent-green-light);
+      transform: scale(1.08) translateY(-2px);
+    }
+
+    /* ---- FOOTER ---- */
+    footer {
+      text-align: center;
+      padding: 1.8rem 0 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      border-top: 1px solid var(--border-color);
+      font-weight: 400;
+      letter-spacing: 0.2px;
+      margin-top: 0.5rem;
+    }
+    footer span { color: var(--accent-green); }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 0 1rem;
+        height: auto;
+        min-height: 54px;
+      }
+      .logo { font-size: 1.1rem; }
+      .logo img { width: 26px; height: 26px; }
+      .nav-links {
+        width: 100%;
+        justify-content: center;
+        gap: 0.1rem;
+        padding-top: 0.3rem;
+      }
+      .nav-links a { font-size: 0.72rem; padding: 0.25rem 0.6rem; }
+      .dropdown-content { min-width: 180px; }
+      .page { padding: 5rem 0.8rem 2rem; }
+      .hero h1 { font-size: 2.6rem; }
+      .page-header h1 { font-size: 1.8rem; }
+      .download-card { padding: 2rem 1.2rem; }
+      .download-card h1 { font-size: 2rem; }
+      .tab-btn { font-size: 0.75rem; padding: 0.4rem 0.8rem; }
+      .tab-btn img { width: 18px; height: 18px; }
+      .tab-content .script-box { flex-wrap: wrap; padding: 0.4rem; }
+      .tab-content .script-box textarea {
+        font-size: 0.7rem;
+        white-space: pre-wrap;
+        word-break: break-all;
+        min-height: 40px;
+      }
+      .copy-btn { width: 100%; padding: 0.4rem; justify-content: center; }
+      .credit-box .avatar { width: 72px; height: 72px; }
+      .catalog-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.8rem; }
+      .game-card .game-icon { width: 64px; height: 64px; }
+      .info-banner { padding: 1rem; flex-direction: column; align-items: stretch; text-align: center; }
+      .info-banner .info-item { justify-content: center; }
+      .scroll-top { bottom: 1rem; right: 1rem; width: 38px; height: 38px; font-size: 1rem; }
+    }
+
+    @media (max-width: 420px) {
+      .hero h1 { font-size: 2rem; }
+      .nav-links a { font-size: 0.65rem; padding: 0.2rem 0.4rem; }
+      .card { padding: 1rem; }
+      .catalog-grid { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+      .game-card { padding: 0.8rem 0.5rem; }
+      .game-card .game-icon { width: 56px; height: 56px; }
+      .game-card .game-name { font-size: 0.75rem; }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- ============================================================
-    NAVBAR
-    ============================================================ -->
-    <nav class="navbar">
-        <div class="logo" onclick="showPage('home')">
-            <img src="https://tr.rbxcdn.com/180DAY-85562c0efb45221628a4c872e35cf587/150/150/Decal/Webp/noFilter" alt="Happy Hub Icon" />
-            Happy<span>Hub</span>
-        </div>
-        <div class="nav-links">
-            <a onclick="showPage('home')" class="active" id="nav-home">Home</a>
-            <a onclick="showPage('script')" id="nav-script">Script</a>
-            <a onclick="showPage('download')" id="nav-download">Download</a>
-            <a onclick="showPage('credits')" id="nav-credits">Credits</a>
-        </div>
-    </nav>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo" onclick="navigate('home')">
+      <img src="https://tr.rbxcdn.com/180DAY-85562c0efb45221628a4c872e35cf587/150/150/Decal/Webp/noFilter" alt="Happy Hub" />
+      Happy<span>Hub</span>
+    </div>
+    <div class="nav-links">
+      <a onclick="navigate('home')" class="active" id="nav-home"><i class="fas fa-home"></i> Home</a>
 
-    <!-- ============================================================
-    PAGE: HOME
-    ============================================================ -->
-    <div id="home" class="page active">
-        <div class="hero">
-            <h1 id="typingText">HELLO BXTCH</h1>
-            <p>Free · Keyless · Open Source<br />Load it, execute it.</p>
-            <span class="badge">MM2 Script Hub</span>
+      <div class="dropdown">
+        <a onclick="event.preventDefault();" style="cursor:default;"><i class="fas fa-code"></i> Scripts ▾</a>
+        <div class="dropdown-content">
+          <a onclick="navigate('scripts', 'mm2')">
+            <img src="https://static.wikia.nocookie.net/murdermystery/images/3/30/MM2logo.png/revision/latest?cb=20141230012338" alt="MM2" />
+            MM2 <span class="status-badge">Working</span>
+          </a>
+          <a onclick="navigate('scripts', 'prison')">
+            <img src="https://static.wikia.nocookie.net/roblox/images/0/0c/Prison_Life_Icon.png/revision/latest?cb=20260130054653" alt="Prison Life" />
+            Prison Life <span class="status-badge soon">Soon</span>
+          </a>
+          <a onclick="navigate('scripts', 'disaster')">
+            <img src="https://static.wikia.nocookie.net/roblox/images/0/01/Ndsnds.png/revision/latest?cb=20190616012113&path-prefix=es" alt="Natural Disaster" />
+            Natural Disaster <span class="status-badge soon">Soon</span>
+          </a>
         </div>
+      </div>
 
-        <!-- ============================================================
-        GAME CATALOG
-        ============================================================ -->
-        <div class="page-header" style="border-bottom: none; margin-bottom: 0.5rem; padding-bottom: 0;">
-            <h1 style="font-size: 1.4rem;">Supported Games</h1>
-            <p style="font-size: 0.85rem;">Scripts available for these Roblox games</p>
-        </div>
+      <a onclick="navigate('download')" id="nav-download"><i class="fas fa-download"></i> Download</a>
+      <a onclick="navigate('credits')" id="nav-credits"><i class="fas fa-user"></i> Credits</a>
+    </div>
+  </nav>
 
-        <div class="catalog-grid">
-            <!-- MM2 - Working -->
-            <div class="game-card">
-                <img src="https://static.wikia.nocookie.net/murdermystery/images/3/30/MM2logo.png/revision/latest?cb=20141230012338" alt="Murder Mystery 2" />
-                <div class="game-name">Murder Mystery 2</div>
-                <span class="game-status working">Working</span>
-            </div>
-
-            <!-- Prison Life - Soon -->
-            <div class="game-card">
-                <img src="https://static.wikia.nocookie.net/roblox/images/0/0c/Prison_Life_Icon.png/revision/latest?cb=20260130054653" alt="Prison Life" />
-                <div class="game-name">Prison Life</div>
-                <span class="game-status soon">Soon</span>
-                <div class="soon-overlay">SOON</div>
-            </div>
-
-            <!-- Natural Disaster Survival - Soon -->
-            <div class="game-card">
-                <img src="https://static.wikia.nocookie.net/roblox/images/0/01/Ndsnds.png/revision/latest?cb=20190616012113&path-prefix=es" alt="Natural Disaster Survival" />
-                <div class="game-name">Natural Disaster</div>
-                <span class="game-status soon">Soon</span>
-                <div class="soon-overlay">SOON</div>
-            </div>
-        </div>
-
-        <!-- ============================================================
-        INFO CARDS
-        ============================================================ -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem;">
-            <div class="card">
-                <h2>What is this?</h2>
-                <p><span class="highlight">HHB-MM2</span> is a common script hub for <span class="highlight">Murder Mystery 2</span>. No keys, no bullshit. Full open source, inspectable, and built for performance.</p>
-            </div>
-            <div class="card">
-                <h2>How to use?</h2>
-                <p>Execute the script, go to <span class="highlight">ESP</span> and enable <span class="highlight">Murder Mystery 2</span>, then navigate to <span class="highlight">Misc</span> and choose your cheat.</p>
-            </div>
-        </div>
+  <!-- PAGE: HOME -->
+  <div id="home" class="page active">
+    <div class="hero">
+      <h1 id="typingText">HELLO BXTCH</h1>
+      <p>Free · Keyless · Open Source<br />Load it, execute it.</p>
+      <span class="badge"><i class="fas fa-cubes"></i> Multi‑Hub Scripts</span>
+      <div style="margin-top: 0.8rem;">
+        <span class="xeno-badge"><i class="fas fa-bolt"></i> Xeno Friendly</span>
+      </div>
     </div>
 
-    <!-- ============================================================
-    PAGE: SCRIPT
-    ============================================================ -->
-    <div id="script" class="page">
-        <div class="page-header">
-            <h1>Script Hub</h1>
-            <p>Copy the raw code and execute in your Roblox executor.</p>
-            <span class="tag">One-liner</span>
-        </div>
-
-        <div class="script-box">
-            <textarea id="scriptText" readonly>loadstring(game:HttpGet("https://raw.githubusercontent.com/overthcode2011-stack/HHB-MM2-/refs/heads/main/main.lua"))()</textarea>
-            <button class="copy-btn" id="copyBtn">Copy</button>
-        </div>
-
-        <div class="steps">
-            <div class="steps-title">Execution steps</div>
-            <ol>
-                <li>Copy the script above.</li>
-                <li>Open your executor (Xeno, Synapse, etc.).</li>
-                <li>Paste and execute.</li>
-            </ol>
-        </div>
-
-        <div class="script-meta">
-            <span><strong>70% UNC</strong> in MM2</span>
-            <span><strong>Keyless</strong> &amp; free</span>
-            <span>Auto-updates from GitHub</span>
-        </div>
+    <!-- INFO BANNER -->
+    <div class="info-banner">
+      <div class="info-item">
+        <i class="fas fa-rocket"></i>
+        <span>Version <strong>10.4.0</strong> <span class="version-tag">STABLE</span></span>
+      </div>
+      <div class="info-item">
+        <i class="fas fa-calendar-alt"></i>
+        <span>Template <strong>9 months</strong> of evolution</span>
+      </div>
+      <div class="info-item">
+        <i class="fas fa-headset"></i>
+        <span><strong>24/7 Support</strong> · Always updated</span>
+      </div>
+      <div class="info-item">
+        <i class="fas fa-sync-alt"></i>
+        <span>Constant <strong>updates</strong></span>
+      </div>
     </div>
 
-    <!-- ============================================================
-    PAGE: DOWNLOAD
-    ============================================================ -->
-    <div id="download" class="page">
-        <div class="page-header">
-            <h1>Download</h1>
-            <p>Get the best free executor for the hub</p>
-        </div>
-
-        <div class="download-card">
-            <h1>Get <span>Xeno</span></h1>
-            <p class="subtitle">The best free executor for the hub</p>
-            <a class="download-btn" href="https://www.xeno.now/" target="_blank" rel="noopener noreferrer">
-                Visit xeno.now
-            </a>
-            <p class="footer-note">Official partner · redirects to xeno.now</p>
-        </div>
+    <div class="page-header" style="border-bottom: none; margin-bottom: 0.5rem; padding-bottom: 0;">
+      <h1 style="font-size: 1.4rem;"><i class="fas fa-gamepad" style="color: var(--accent-green); font-size: 1.4rem;"></i> Supported Games</h1>
+      <p style="font-size: 0.85rem;">Click a game to view its script</p>
     </div>
 
-    <!-- ============================================================
-    PAGE: CREDITS
-    ============================================================ -->
-    <div id="credits" class="page">
-        <div class="page-header">
-            <h1>Credits</h1>
-            <p>Meet the creator behind Happy Hub</p>
+    <div class="catalog-grid">
+      <div class="game-card" onclick="navigate('scripts', 'mm2')">
+        <div class="game-icon">
+          <img src="https://static.wikia.nocookie.net/murdermystery/images/3/30/MM2logo.png/revision/latest?cb=20141230012338" alt="Murder Mystery 2" />
         </div>
+        <div class="game-name">Murder Mystery 2</div>
+        <span class="game-status working"><i class="fas fa-check-circle"></i> Working</span>
+      </div>
 
-        <div class="card credit-box">
-            <img class="avatar" src="https://avatars.githubusercontent.com/u/284167512?s=400&u=e81860e2a4085885840ca3a9c17177d795c61630&v=4" alt="author avatar" />
-            <h2>Replicated Man</h2>
-            <p class="role">Creator &amp; Developer</p>
-            <p class="bio">
-                Built this hub for the community. <strong>Free forever.</strong><br />
-                No keys, no paywalls. DM for donations or collab.
-            </p>
-            <div class="social-links">
-                <a href="https://github.com/overthcode2011-stack" target="_blank">GitHub</a>
-                <a href="https://discord.com/users/1377275349133430834" target="_blank">Discord</a>
-            </div>
+      <div class="game-card" onclick="navigate('scripts', 'prison')">
+        <div class="game-icon">
+          <img src="https://static.wikia.nocookie.net/roblox/images/0/0c/Prison_Life_Icon.png/revision/latest?cb=20260130054653" alt="Prison Life" />
         </div>
+        <div class="game-name">Prison Life</div>
+        <span class="game-status soon"><i class="fas fa-clock"></i> Soon</span>
+        <div class="soon-overlay">SOON</div>
+      </div>
+
+      <div class="game-card" onclick="navigate('scripts', 'disaster')">
+        <div class="game-icon">
+          <img src="https://static.wikia.nocookie.net/roblox/images/0/01/Ndsnds.png/revision/latest?cb=20190616012113&path-prefix=es" alt="Natural Disaster Survival" />
+        </div>
+        <div class="game-name">Natural Disaster</div>
+        <span class="game-status soon"><i class="fas fa-clock"></i> Soon</span>
+        <div class="soon-overlay">SOON</div>
+      </div>
     </div>
 
-    <!-- ============================================================
-    FOOTER
-    ============================================================ -->
-    <footer>
-        2026 · <span>Happy Hub</span> · open source &amp; keyless
-    </footer>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.8rem;">
+      <div class="card">
+        <h2><i class="fas fa-info-circle"></i> What is this?</h2>
+        <p><span class="highlight">Happy Hub</span> is a multi‑script hub for Roblox. <strong>No keys, no paywalls</strong>, fully open source. Our <span class="highlight">v10.4.0</span> template is the result of <strong>9 months</strong> of continuous development — the most stable and optimized version to date.</p>
+      </div>
+      <div class="card">
+        <h2><i class="fas fa-cogs"></i> How to use?</h2>
+        <p>Pick your game, copy the script, execute it with your favorite executor (Xeno recommended). <strong>24/7 support</strong> and constant updates. <span class="highlight">Don't hesitate to use the template</span> — it will always receive improvements.</p>
+      </div>
+    </div>
 
-    <!-- ============================================================
-    SCRIPTS
-    ============================================================ -->
-    <script>
-        // ---- PAGE SWITCH ----
-        const navMap = {
-            home: 'nav-home',
-            script: 'nav-script',
-            download: 'nav-download',
-            credits: 'nav-credits'
-        };
+    <div class="card" style="margin-top: 1rem; border-color: rgba(0, 168, 107, 0.15);">
+      <h2><i class="fas fa-sync-alt" style="color: var(--accent-green);"></i> Updates & Support</h2>
+      <p>
+        <i class="fas fa-check-circle" style="color: var(--accent-green);"></i> <strong>Unified version:</strong> All hubs share the same base (v10.4.0). No separate versions — everything depends on the main template.
+        <br />
+        <i class="fas fa-clock" style="color: var(--accent-green);"></i> <strong>9 months of evolution:</strong> The template has matured with constant performance and stability improvements.
+        <br />
+        <i class="fas fa-headset" style="color: var(--accent-green);"></i> <strong>24/7 Support:</strong> Always someone available to help with any issues.
+        <br />
+        <i class="fas fa-gem" style="color: var(--accent-green);"></i> <strong>Coming soon:</strong> More interactables, new features and supported games.
+      </p>
+    </div>
+  </div>
 
-        function showPage(name) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(name).classList.add('active');
+  <!-- PAGE: SCRIPTS -->
+  <div id="scripts" class="page">
+    <div class="page-header">
+      <h1><i class="fas fa-code"></i> Script Hub</h1>
+      <p>Select a game to view its script</p>
+      <span class="tag"><i class="fas fa-version"></i> v10.4.0 · Unified base</span>
+    </div>
 
-            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-            document.getElementById(navMap[name]).classList.add('active');
+    <div class="tabs" id="scriptTabs">
+      <button class="tab-btn active" data-game="mm2">
+        <img src="https://static.wikia.nocookie.net/murdermystery/images/3/30/MM2logo.png/revision/latest?cb=20141230012338" alt="MM2" />
+        MM2
+      </button>
+      <button class="tab-btn" data-game="prison">
+        <img src="https://static.wikia.nocookie.net/roblox/images/0/0c/Prison_Life_Icon.png/revision/latest?cb=20260130054653" alt="Prison Life" />
+        Prison Life
+      </button>
+      <button class="tab-btn" data-game="disaster">
+        <img src="https://static.wikia.nocookie.net/roblox/images/0/01/Ndsnds.png/revision/latest?cb=20190616012113&path-prefix=es" alt="Natural Disaster" />
+        Natural Disaster
+      </button>
+    </div>
 
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+    <!-- MM2 -->
+    <div class="tab-content active" id="tab-mm2">
+      <div style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 0.5rem;">
+        <span class="status-indicator working"><i class="fas fa-circle"></i> Working</span>
+        <span style="color: var(--text-muted); font-size: 0.8rem;"><i class="fas fa-tag"></i> v10.4.0</span>
+        <span style="color: var(--text-muted); font-size: 0.8rem;"><i class="fas fa-calendar-alt"></i> Updated: 2026-08-28</span>
+        <span style="color: var(--text-muted); font-size: 0.8rem;"><i class="fas fa-headset"></i> 24/7 Support</span>
+      </div>
+      <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Murder Mystery 2 – ESP, Aimbot, Silent Aim, and more. <strong>Stable v10.4.0 base</strong></p>
+      <div class="script-box">
+        <textarea readonly>loadstring(game:HttpGet("https://raw.githubusercontent.com/overthcode2011-stack/HHB-MM2-/refs/heads/main/main.lua"))()</textarea>
+        <button class="copy-btn" data-script="mm2"><i class="fas fa-copy"></i> Copy</button>
+      </div>
+      <div class="script-meta">
+        <span><i class="fas fa-bolt"></i> <strong>70% UNC</strong> in MM2</span>
+        <span><i class="fas fa-key"></i> <strong>Keyless</strong> &amp; free</span>
+        <span><i class="fas fa-sync-alt"></i> Auto‑updates from GitHub</span>
+        <span><i class="fas fa-clock"></i> 9 months of evolution</span>
+      </div>
+    </div>
+
+    <!-- PRISON LIFE -->
+    <div class="tab-content" id="tab-prison">
+      <div style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 0.5rem;">
+        <span class="status-indicator soon"><i class="fas fa-clock"></i> Soon</span>
+        <span style="color: var(--text-muted); font-size: 0.8rem;"><i class="fas fa-tag"></i> v10.4.0 (beta)</span>
+        <span style="color: var(--text-muted); font-size: 0.8rem;"><i class="fas fa-calendar-alt"></i> Expected: Q4 2026</span>
+      </div>
+      <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Prison Life – teleports, speed, auto‑escape, and more. <strong>Coming soon with v10.4.0 base</strong></p>
+      <div class="script-box">
+        <textarea readonly>-- Prison Life script coming soon
+-- Stay tuned for updates! (v10.4.0 base)</textarea>
+        <button class="copy-btn" data-script="prison" disabled><i class="fas fa-copy"></i> Unavailable</button>
+      </div>
+      <div class="script-meta">
+        <span><i class="fas fa-code-branch"></i> <strong>In development</strong></span>
+        <span><i class="fas fa-hourglass-half"></i> Expected: Q4 2026</span>
+        <span><i class="fas fa-headset"></i> 24/7 Support</span>
+      </div>
+    </div>
+
+    <!-- NATURAL DISASTER -->
+    <div class="tab-content" id="tab-disaster">
+      <div style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 0.5rem;">
+        <span class="status-indicator soon"><i class="fas fa-clock"></i> Soon</span>
+        <span style="color: var(--text-muted); font-size: 0.8rem;"><i class="fas fa-tag"></i> v10.4.0 (beta)</span>
+        <span style="color: var(--text-muted); font-size: 0.8rem;"><i class="fas fa-calendar-alt"></i> Expected: Q4 2026</span>
+      </div>
+      <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Natural Disaster Survival – anti‑fall, auto‑collect, instant respawn, and more. <strong>Coming soon with v10.4.0 base</strong></p>
+      <div class="script-box">
+        <textarea readonly>-- Natural Disaster script coming soon
+-- Stay tuned for updates! (v10.4.0 base)</textarea>
+        <button class="copy-btn" data-script="disaster" disabled><i class="fas fa-copy"></i> Unavailable</button>
+      </div>
+      <div class="script-meta">
+        <span><i class="fas fa-code-branch"></i> <strong>In development</strong></span>
+        <span><i class="fas fa-hourglass-half"></i> Expected: Q4 2026</span>
+        <span><i class="fas fa-headset"></i> 24/7 Support</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: DOWNLOAD -->
+  <div id="download" class="page">
+    <div class="page-header">
+      <h1><i class="fas fa-download"></i> Download</h1>
+      <p>Get the best free executor for the hub</p>
+    </div>
+    <div class="download-card">
+      <h1>Get <span>Xeno</span></h1>
+      <p class="subtitle">The best free executor for the hub</p>
+      <a class="download-btn" href="https://www.xeno.now/" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> Visit xeno.now</a>
+      <p class="footer-note">Official partner · redirects to xeno.now</p>
+    </div>
+  </div>
+
+  <!-- PAGE: CREDITS (FIXED - centered) -->
+  <div id="credits" class="page">
+    <div class="page-header">
+      <h1><i class="fas fa-user"></i> Credits</h1>
+      <p>Meet the creator behind Happy Hub</p>
+    </div>
+    <div class="card credit-box">
+      <img class="avatar" src="https://avatars.githubusercontent.com/u/284167512?s=400&u=e81860e2a4085885840ca3a9c17177d795c61630&v=4" alt="author" />
+      <h2>Replicated Man</h2>
+      <p class="role"><i class="fas fa-code"></i> Creator &amp; Developer</p>
+      <p class="bio">Built this hub for the community. <strong>Free forever.</strong><br />No keys, no paywalls. DM for donations or collab.</p>
+      <div class="social-links">
+        <a href="https://github.com/overthcode2011-stack" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+        <a href="https://discord.com/users/1377275349133430834" target="_blank"><i class="fab fa-discord"></i> Discord</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCROLL TO TOP BUTTON -->
+  <button class="scroll-top" id="scrollTopBtn" aria-label="Scroll to top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <footer>2026 · <span>Happy Hub</span> · open source &amp; keyless · v10.4.0</footer>
+
+  <script>
+    (function() {
+      // ---- NAVIGATION with hash ----
+      function navigate(page, game) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(page).classList.add('active');
+
+        document.querySelectorAll('.nav-links > a, .nav-links .dropdown > a').forEach(a => a.classList.remove('active'));
+        const navMap = { home: 'nav-home', scripts: 'nav-scripts', download: 'nav-download', credits: 'nav-credits' };
+        const navLink = document.getElementById(navMap[page]);
+        if (navLink) navLink.classList.add('active');
+
+        if (page === 'scripts' && game) {
+          activateTab(game);
         }
 
-        // ---- TYPING EFFECT ----
-        const typingEl = document.getElementById('typingText');
-        const fullText = 'HELLO BXTCH';
-        let charIndex = 0;
-
-        function typeWriter() {
-            if (charIndex <= fullText.length) {
-                typingEl.textContent = fullText.slice(0, charIndex);
-                charIndex++;
-                setTimeout(typeWriter, 75);
-            }
+        let hash = page;
+        if (game) hash += '/' + game;
+        if (window.location.hash !== '#' + hash) {
+          history.pushState(null, null, '#' + hash);
         }
-        typeWriter();
 
-        // ---- COPY BUTTON ----
-        const copyBtn = document.getElementById('copyBtn');
-        const scriptText = document.getElementById('scriptText');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
 
-        copyBtn.addEventListener('click', async () => {
-            try {
-                await navigator.clipboard.writeText(scriptText.value.trim());
-            } catch {
-                scriptText.select();
-                document.execCommand('copy');
-            }
-            copyBtn.textContent = 'Copied';
-            copyBtn.classList.add('copied');
-            setTimeout(() => {
-                copyBtn.textContent = 'Copy';
-                copyBtn.classList.remove('copied');
-            }, 1800);
+      function activateTab(gameKey) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        const tabBtn = document.querySelector(`.tab-btn[data-game="${gameKey}"]`);
+        if (tabBtn) tabBtn.classList.add('active');
+
+        document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+        const tabContent = document.getElementById('tab-' + gameKey);
+        if (tabContent) tabContent.classList.add('active');
+      }
+
+      // ---- COPY ----
+      document.querySelectorAll('.copy-btn:not([disabled])').forEach(btn => {
+        btn.addEventListener('click', async function() {
+          const parent = this.closest('.tab-content') || this.closest('.script-box');
+          const textarea = parent.querySelector('textarea');
+          if (!textarea) return;
+          try {
+            await navigator.clipboard.writeText(textarea.value.trim());
+          } catch {
+            textarea.select();
+            document.execCommand('copy');
+          }
+          const original = this.innerHTML;
+          this.innerHTML = '<i class="fas fa-check"></i> Copied';
+          this.classList.add('copied');
+          setTimeout(() => {
+            this.innerHTML = original;
+            this.classList.remove('copied');
+          }, 1800);
         });
-    </script>
+      });
+
+      // ---- TABS CLICK ----
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const game = this.dataset.game;
+          navigate('scripts', game);
+        });
+      });
+
+      // ---- RESTORE FROM HASH ----
+      function restoreFromHash() {
+        const hash = window.location.hash.slice(1) || 'home';
+        const parts = hash.split('/');
+        const page = parts[0] || 'home';
+        const game = parts[1] || null;
+
+        const validPages = ['home', 'scripts', 'download', 'credits'];
+        if (!validPages.includes(page)) {
+          navigate('home');
+          return;
+        }
+
+        if (page === 'scripts' && game) {
+          const validGames = ['mm2', 'prison', 'disaster'];
+          if (validGames.includes(game)) {
+            navigate('scripts', game);
+            return;
+          }
+        }
+        navigate(page);
+      }
+
+      // ---- TYPING ----
+      const typingEl = document.getElementById('typingText');
+      const fullText = 'HELLO BXTCH';
+      let charIndex = 0;
+      function typeWriter() {
+        if (charIndex <= fullText.length) {
+          typingEl.textContent = fullText.slice(0, charIndex);
+          charIndex++;
+          setTimeout(typeWriter, 75);
+        }
+      }
+      typeWriter();
+
+      // ---- SCROLL TOP BUTTON ----
+      const scrollBtn = document.getElementById('scrollTopBtn');
+
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 300) {
+          scrollBtn.classList.add('visible');
+        } else {
+          scrollBtn.classList.remove('visible');
+        }
+      });
+
+      scrollBtn.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // ---- EXPOSE GLOBALS ----
+      window.navigate = navigate;
+      window.addEventListener('hashchange', restoreFromHash);
+      restoreFromHash();
+    })();
+  </script>
 </body>
 </html>
